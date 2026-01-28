@@ -1,0 +1,1 @@
+export type { INotes } from "./Note";
