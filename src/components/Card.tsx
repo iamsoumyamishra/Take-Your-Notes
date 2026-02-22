@@ -1,0 +1,87 @@
+import React from 'react'
+import { LinkIcon, ImageIcon, FileText, MoreVertical, ExternalLink, Calendar } from 'lucide-react'
+
+const Card = ({ note }: { note: any }) => {
+
+
+    const getTypeIcon = (type: string) => {
+        switch (type) {
+            case "Links":
+                return <LinkIcon size={14} className="text-blue-500" />;
+            case "Images":
+                return <ImageIcon size={14} className="text-purple-500" />;
+            default:
+                return <FileText size={14} className="text-emerald-500" />;
+        }
+    };
+
+    const getTypeColor = (type: string) => {
+        switch (type) {
+            case "Links":
+                return "bg-blue-500/10 text-blue-500 border-blue-500/20";
+            case "Images":
+                return "bg-purple-500/10 text-purple-500 border-purple-500/20";
+            default:
+                return "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
+        }
+    };
+    return (
+        <div
+            key={note.id}
+            className="group flex flex-col bg-card hover:bg-accent/20 border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+        >
+            {/* Image Thumbnail (if Image Type) */}
+            {note.type === "Images" && note.imageUrl && (
+                <div className="w-full h-40 overflow-hidden relative border-b border-border">
+                    <img
+                        src={note.imageUrl}
+                        alt={note.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                </div>
+            )}
+
+            <div className="p-5 flex flex-col flex-1">
+                <div className="flex justify-between items-start mb-3">
+                    {/* Type Badge */}
+                    <span
+                        className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${getTypeColor(
+                            note.type
+                        )}`}
+                    >
+                        {getTypeIcon(note.type)}
+                        <span>{note.type}</span>
+                    </span>
+
+                    <button className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-full hover:bg-accent">
+                        <MoreVertical size={16} />
+                    </button>
+                </div>
+
+                {/* Title & Content */}
+                <h3 className="font-bold text-lg text-foreground mb-2 line-clamp-1 group-hover:text-violet-500 transition-colors">
+                    {note.title}
+                </h3>
+                <p className="text-muted-foreground text-sm line-clamp-3 mb-4 flex-1">
+                    {note.content}
+                </p>
+
+                {/* Specific Type Extras (Link URL) */}
+                {note.type === "Links" && note.url && (
+                    <div className="flex items-center space-x-2 text-xs text-blue-500 mb-4 bg-blue-500/5 p-2 rounded-lg truncate">
+                        <ExternalLink size={14} className="shrink-0" />
+                        <span className="truncate">{note.url}</span>
+                    </div>
+                )}
+
+                {/* Footer Date */}
+                <div className="mt-auto pt-4 border-t border-border flex items-center text-xs text-muted-foreground">
+                    <Calendar size={14} className="mr-1.5" />
+                    {note.date}
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Card

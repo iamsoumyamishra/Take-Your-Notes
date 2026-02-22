@@ -1,65 +1,139 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useState } from "react";
+import { Search, Filter, ChevronDown } from "lucide-react";
+import Card from "@/components/Card";
+
+// Dummy Notes Data
+const DUMMY_NOTES = [
+  {
+    id: 1,
+    title: "10 CSS Tricks for Next.js",
+    type: "Links",
+    content: "A great article on how to master CSS in modern Next.js apps using Tailwind and CSS modules...",
+    date: "Oct 12, 2023",
+    url: "https://example.com/css-tricks"
+  },
+  {
+    id: 2,
+    title: "Project Architecture Diagram",
+    type: "Images",
+    content: "Visual representation of the new microservices architecture we are planning to adopt in Q4.",
+    imageUrl: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=600&auto=format&fit=crop",
+    date: "Oct 14, 2023",
+  },
+  {
+    id: 3,
+    title: "Meeting Notes: Q4 Planning",
+    type: "Text",
+    content: "Discussed upcoming roadmap specifically around performance improvements and database restructuring. Action items: 1. Optimize images 2. Review indexing.",
+    date: "Oct 15, 2023",
+  },
+  {
+    id: 4,
+    title: "Figma Inspiration Board",
+    type: "Links",
+    content: "Collection of references for the new landing page UI.",
+    date: "Oct 18, 2023",
+    url: "https://figma.com/file/xyz123"
+  },
+  {
+    id: 5,
+    title: "Random Ideas",
+    type: "Text",
+    content: "Write a blog post about how artificial intelligence is shaping modern personal knowledge management.",
+    date: "Oct 20, 2023",
+  },
+  {
+    id: 6,
+    title: "Vacation Photos",
+    type: "Images",
+    content: "Trip to the mountains, remember to edit these later.",
+    imageUrl: "https://images.unsplash.com/photo-1506744626753-dba37c259d1b?q=80&w=600&auto=format&fit=crop",
+    date: "Oct 22, 2023",
+  },
+];
+
+
+
+export default function DashboardPage() {
+  const [filter, setFilter] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredNotes = DUMMY_NOTES.filter((note) => {
+    const matchesFilter = filter === "All" || note.type === filter;
+    const matchesSearch =
+      note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      note.content.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="flex-1 p-8 h-screen overflow-y-auto bg-background text-foreground scrollbar-none">
+      {/* Top Header */}
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-violet-500 to-fuchsia-600">
+            Dashboard
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-muted-foreground mt-2 text-sm md:text-base">
+            Manage and organize your notes seamlessly.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Search Bar */}
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search size={18} className="text-muted-foreground group-focus-within:text-violet-500 transition-colors" />
+            </div>
+            <input
+              type="text"
+              placeholder="Search notes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 pr-4 py-2.5 bg-accent/30 hover:bg-accent/50 border border-border rounded-xl w-full md:w-72 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500 transition-all shadow-sm backdrop-blur-sm"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+
+          {/* Filter Dropdown */}
+          <div className="relative group">
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="appearance-none pl-10 pr-10 py-2.5 bg-accent/30 hover:bg-accent/50 border border-border rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500 transition-all shadow-sm font-medium backdrop-blur-sm"
+            >
+              <option value="All">All Types</option>
+              <option value="Links">Links</option>
+              <option value="Images">Images</option>
+              <option value="Text">Text</option>
+            </select>
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Filter size={16} className="text-muted-foreground group-hover:text-violet-500 transition-colors" />
+            </div>
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <ChevronDown size={16} className="text-muted-foreground group-hover:text-violet-500 transition-colors" />
+            </div>
+          </div>
         </div>
-      </main>
+      </header>
+
+      {/* Grid Layout of Notes */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-24">
+        {filteredNotes.map((note) => (
+          <Card key={note.id} note={note} />
+        ))}
+      </div>
+
+      {filteredNotes.length === 0 && (
+        <div className="flex flex-col items-center justify-center h-64 text-center">
+          <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mb-4">
+            <Search size={24} className="text-muted-foreground" />
+          </div>
+          <h3 className="text-lg font-bold text-foreground">No notes found</h3>
+          <p className="text-muted-foreground mt-1">Try adjusting your search or filters.</p>
+        </div>
+      )}
     </div>
   );
 }
