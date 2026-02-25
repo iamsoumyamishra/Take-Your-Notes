@@ -3,68 +3,70 @@
 import React, { useState } from "react";
 import { Search, Filter, ChevronDown } from "lucide-react";
 import Card from "@/components/Card";
+import { INote } from "@/types";
 
 // Dummy Notes Data
-const DUMMY_NOTES = [
+const DUMMY_NOTES: INote[] = [
   {
-    id: 1,
+    id: "1",
     title: "10 CSS Tricks for Next.js",
-    type: "Links",
+    type: ["Link"],
     content: "A great article on how to master CSS in modern Next.js apps using Tailwind and CSS modules...",
     date: "Oct 12, 2023",
     url: "https://example.com/css-tricks"
   },
   {
-    id: 2,
+    id: "2",
     title: "Project Architecture Diagram",
-    type: "Images",
+    type: ["Image"],
     content: "Visual representation of the new microservices architecture we are planning to adopt in Q4.",
     imageUrl: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=600&auto=format&fit=crop",
     date: "Oct 14, 2023",
   },
   {
-    id: 3,
+    id: "3",
     title: "Meeting Notes: Q4 Planning",
-    type: "Text",
+    type: ["Text"],
     content: "Discussed upcoming roadmap specifically around performance improvements and database restructuring. Action items: 1. Optimize images 2. Review indexing.",
     date: "Oct 15, 2023",
   },
   {
-    id: 4,
+    id: "4",
     title: "Figma Inspiration Board",
-    type: "Links",
+    type: ["Link"],
     content: "Collection of references for the new landing page UI.",
     date: "Oct 18, 2023",
     url: "https://figma.com/file/xyz123"
   },
   {
-    id: 5,
+    id: "5",
     title: "Random Ideas",
-    type: "Text",
+    type: ["Text"],
     content: "Write a blog post about how artificial intelligence is shaping modern personal knowledge management.",
     date: "Oct 20, 2023",
   },
   {
-    id: 6,
+    id: "6",
     title: "Vacation Photos",
-    type: "Images",
+    type: ["Image"],
     content: "Trip to the mountains, remember to edit these later.",
     imageUrl: "https://images.unsplash.com/photo-1506744626753-dba37c259d1b?q=80&w=600&auto=format&fit=crop",
     date: "Oct 22, 2023",
   },
 ];
 
+type Filter = "All" | "Text" | "Link" | "Image" | "Video" | "Audio" | "File" | "Other"
 
 
 export default function DashboardPage() {
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState<Filter>("All");
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredNotes = DUMMY_NOTES.filter((note) => {
-    const matchesFilter = filter === "All" || note.type === filter;
+    const matchesFilter = filter === "All" || note.type.includes(filter);
     const matchesSearch =
       note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      note.content.toLowerCase().includes(searchQuery.toLowerCase());
+      note.content?.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
@@ -100,12 +102,12 @@ export default function DashboardPage() {
           <div className="relative group">
             <select
               value={filter}
-              onChange={(e) => setFilter(e.target.value)}
+              onChange={(e) => setFilter(e.target.value as Filter)}
               className="appearance-none pl-10 pr-10 py-2.5 bg-accent/30 hover:bg-accent/50 border border-border rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500 transition-all shadow-sm font-medium backdrop-blur-sm"
             >
               <option value="All">All Types</option>
-              <option value="Links">Links</option>
-              <option value="Images">Images</option>
+              <option value="Link">Links</option>
+              <option value="Image">Images</option>
               <option value="Text">Text</option>
             </select>
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

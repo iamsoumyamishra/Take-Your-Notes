@@ -18,6 +18,7 @@ import {
     Star,
     Trash2
 } from "lucide-react";
+import Link from "next/link";
 
 export default function Sidebar() {
     const [isExpanded, setIsExpanded] = useState(true);
@@ -30,8 +31,8 @@ export default function Sidebar() {
     }, []);
 
     const navItems = [
-        { icon: PlusCircle, label: "Create New", href: "#" },
-        { icon: LayoutDashboard, label: "Dashboard", href: "#" },
+        { icon: PlusCircle, label: "Create New", href: "/notes/new" },
+        { icon: LayoutDashboard, label: "Dashboard", href: "/" },
         { icon: FileText, label: "All Notes", href: "#" },
         { icon: Tag, label: "Tags", href: "#" },
         { icon: Star, label: "Favorites", href: "#" },
@@ -85,7 +86,7 @@ export default function Sidebar() {
             {/* Nav Links */}
             <nav className="flex-1 px-4 space-y-1.5 overflow-y-auto w-full scrollbar-none">
                 {navItems.map((item, idx) => (
-                    <a
+                    <Link
                         key={idx}
                         href={item.href}
                         className={`flex items-center space-x-3.5 px-3 py-2.5 rounded-xl text-sidebar-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-200 group relative overflow-hidden ${!isExpanded ? "justify-center" : ""}`}
@@ -94,7 +95,7 @@ export default function Sidebar() {
                         <div className="absolute inset-0 bg-linear-to-r from-violet-500/0 to-violet-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                         <item.icon size={20} className="shrink-0 group-hover:scale-110 transition-transform duration-200 relative z-10" />
                         {isExpanded && <span className="font-medium whitespace-nowrap relative z-10">{item.label}</span>}
-                    </a>
+                    </Link>
                 ))}
             </nav>
 
