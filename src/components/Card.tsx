@@ -1,9 +1,11 @@
-import React from 'react'
-import { LinkIcon, ImageIcon, FileText, MoreVertical, ExternalLink, Calendar } from 'lucide-react'
+import { LinkIcon, ImageIcon, FileText, ExternalLink, Calendar, Link } from 'lucide-react'
+import { useRouter } from 'next/navigation';
 import { INote } from '@/types';
+import NoteOptions from './NoteOptions';
+
 
 const Card = ({ note }: { note: INote }) => {
-
+    const router = useRouter();
 
     const getTypeIcon = (type: string) => {
         switch (type) {
@@ -43,23 +45,28 @@ const Card = ({ note }: { note: INote }) => {
             )}
 
             <div className="p-5 flex flex-col flex-1">
-                <div className="flex justify-between items-start mb-3">
-                    {/* Type Badge */}
-                    {
-                        note.type.map((t) =>
-                            <span
-                                className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${getTypeColor(
-                                    t
-                                )}`}
-                            >
-                                {getTypeIcon(t)}
-                                <span>{note.type}</span>
-                            </span>
-                        )}
+                <div className="flex justify-between items-start mb-3 gap-2">
+                    <div className='flex flex-wrap gap-2'>
+                        {/* Type Badge */}
+                        {
+                            note.type.map((t) =>
+                                <span
+                                    key={t}
+                                    className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${getTypeColor(
+                                        t
+                                    )}`}
+                                >
+                                    {getTypeIcon(t)}
+                                    <span>{t}</span>
+                                </span>
+                            )}
+                    </div>
 
-                    <button className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-full hover:bg-accent">
-                        <MoreVertical size={16} />
-                    </button>
+                    <NoteOptions
+                        onEdit={() => router.push(`/notes/edit/${note.id}`)}
+                        onDelete={() => console.log("Delete note", note.id)}
+                        onExport={() => console.log("Export note", note.id)}
+                    />
                 </div>
 
                 {/* Title & Content */}
@@ -74,14 +81,14 @@ const Card = ({ note }: { note: INote }) => {
                 {note.type.includes("Link") && note.url && (
                     <div className="flex items-center space-x-2 text-xs text-blue-500 mb-4 bg-blue-500/5 p-2 rounded-lg truncate">
                         <ExternalLink size={14} className="shrink-0" />
-                        <span className="truncate">{note.url}</span>
+                        <span className="truncate"><a href={note.url} target='_blank'>{note.url}</a></span>
                     </div>
                 )}
 
                 {/* Footer Date */}
                 <div className="mt-auto pt-4 border-t border-border flex items-center text-xs text-muted-foreground">
                     <Calendar size={14} className="mr-1.5" />
-                    {note.date}
+                    {new Date(Number(note.date)).toDateString()}
                 </div>
             </div>
         </div>

@@ -1,12 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search, Filter, ChevronDown } from "lucide-react";
 import Card from "@/components/Card";
 import { INote } from "@/types";
 
+type Filter = "All" | "Text" | "Link" | "Image" | "Video" | "Audio" | "File" | "Other"
 // Dummy Notes Data
 const DUMMY_NOTES: INote[] = [
+  {
+    id: "223",
+    title: "10 CSS Tricks for Next.js",
+    type: ["Text", "Link", "Image"],
+    content: "A great article on how to master CSS in modern Next.js apps using Tailwind and CSS modules...",
+    date: "Oct 12, 2023",
+    imageUrl: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=600&auto=format&fit=crop",
+    url: "https://example.com/css-tricks"
+  },
   {
     id: "1",
     title: "10 CSS Tricks for Next.js",
@@ -55,20 +65,52 @@ const DUMMY_NOTES: INote[] = [
   },
 ];
 
-type Filter = "All" | "Text" | "Link" | "Image" | "Video" | "Audio" | "File" | "Other"
 
 
 export default function DashboardPage() {
+
+  const [notes, setNotes] = useState<INote[]>([]);
   const [filter, setFilter] = useState<Filter>("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredNotes = DUMMY_NOTES.filter((note) => {
+  const filteredNotes = notes.filter((note) => {
     const matchesFilter = filter === "All" || note.type.includes(filter);
     const matchesSearch =
       note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       note.content?.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesFilter && matchesSearch;
   });
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      const response = await fetch("/api/notes/get-notes",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({})
+        }
+      );
+      const data = await response.json();
+
+      return data
+
+
+    }
+
+    let mounted = true;
+
+    fetchNotes().then(data => {
+      if (mounted) {
+        setNotes(data.notes);
+      }
+    })
+
+    return () => {
+      mounted = false;
+    }
+  }, [])
 
   return (
     <div className="flex-1 p-8 h-screen overflow-y-auto bg-background text-foreground scrollbar-none">
