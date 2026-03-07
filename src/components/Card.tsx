@@ -1,10 +1,14 @@
-import { LinkIcon, ImageIcon, FileText, ExternalLink, Calendar, Link } from 'lucide-react'
+import { LinkIcon, ImageIcon, FileText, ExternalLink, Calendar } from 'lucide-react'
 import { useRouter } from 'next/navigation';
 import { INote } from '@/types';
 import NoteOptions from './NoteOptions';
+import { useNotes } from '@/context/useNotes';
+import Link from 'next/link';
 
 
 const Card = ({ note }: { note: INote }) => {
+
+    const { notes, setNotes } = useNotes()
     const router = useRouter();
 
     const getTypeIcon = (type: string) => {
@@ -29,69 +33,82 @@ const Card = ({ note }: { note: INote }) => {
         }
     };
     return (
-        <div
-            key={note.id}
-            className="group flex flex-col bg-card hover:bg-accent/20 border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
-        >
-            {/* Image Thumbnail (if Image Type) */}
-            {note.type.includes("Image") && note.imageUrl && (
-                <div className="w-full h-40 overflow-hidden relative border-b border-border">
-                    <img
-                        src={note.imageUrl}
-                        alt={note.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                </div>
-            )}
+        <Link href={`/notes/${note.id}`}>
 
-            <div className="p-5 flex flex-col flex-1">
-                <div className="flex justify-between items-start mb-3 gap-2">
-                    <div className='flex flex-wrap gap-2'>
-                        {/* Type Badge */}
-                        {
-                            note.type.map((t) =>
-                                <span
-                                    key={t}
-                                    className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${getTypeColor(
-                                        t
-                                    )}`}
-                                >
-                                    {getTypeIcon(t)}
-                                    <span>{t}</span>
-                                </span>
-                            )}
-                    </div>
-
-                    <NoteOptions
-                        onEdit={() => router.push(`/notes/edit/${note.id}`)}
-                        onDelete={() => console.log("Delete note", note.id)}
-                        onExport={() => console.log("Export note", note.id)}
-                    />
-                </div>
-
-                {/* Title & Content */}
-                <h3 className="font-bold text-lg text-foreground mb-2 line-clamp-1 group-hover:text-violet-500 transition-colors">
-                    {note.title}
-                </h3>
-                <p className="text-muted-foreground text-sm line-clamp-3 mb-4 flex-1">
-                    {note.content}
-                </p>
-
-                {/* Specific Type Extras (Link URL) */}
-                {note.type.includes("Link") && note.url && (
-                    <div className="flex items-center space-x-2 text-xs text-blue-500 mb-4 bg-blue-500/5 p-2 rounded-lg truncate">
-                        <ExternalLink size={14} className="shrink-0" />
-                        <span className="truncate"><a href={note.url} target='_blank'>{note.url}</a></span>
+            <div
+                key={note.id}
+                className="group flex flex-col bg-card hover:bg-accent/20 border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+            >
+                {/* Image Thumbnail (if Image Type) */}
+                {note.type.includes("Image") && note.imageUrl && (
+                    <div className="w-full h-40 overflow-hidden relative border-b border-border">
+                        <img
+                            src={note.imageUrl}
+                            alt={note.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
                     </div>
                 )}
 
-                {/* Footer Date */}
-                <div className="mt-auto pt-4 border-t border-border flex items-center text-xs text-muted-foreground">
-                    <Calendar size={14} className="mr-1.5" />
-                    {new Date(Number(note.date)).toDateString()}
+                <div className="p-5 flex flex-col flex-1">
+                    <div className="flex justify-between items-start mb-3 gap-2">
+                        <div className='flex flex-wrap gap-2'>
+                            {/* Type Badge */}
+                            {
+                                note.type.map((t) =>
+                                    <span
+                                        key={t}
+                                        className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${getTypeColor(
+                                            t
+                                        )}`}
+                                    >
+                                        {getTypeIcon(t)}
+                                        <span>{t}</span>
+                                    </span>
+                                )}
+                        </div>
+
+                        <NoteOptions
+                            onEdit={() => router.push(`/notes/edit/${note.id}`)}
+                            onDelete={async () => {
+                                await fetch("/api/notes/delete-note", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({ noteId: note.id }),
+                                });
+
+                                setNotes(notes.filter((n) => n.id !== note.id))
+                            }}
+                            onExport={() => console.log("Export note", note.id)}
+                        />
+                    </div>
+
+                    {/* Title & Content */}
+                    <h3 className="font-bold text-lg text-foreground mb-2 line-clamp-1 group-hover:text-violet-500 transition-colors">
+                        {note.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm line-clamp-3 mb-4 flex-1">
+                        {note.content}
+                    </p>
+
+                    {/* Specific Type Extras (Link URL) */}
+                    {note.type.includes("Link") && note.url && (
+                        <div className="flex items-center space-x-2 text-xs text-blue-500 mb-4 bg-blue-500/5 p-2 rounded-lg truncate">
+                            <ExternalLink size={14} className="shrink-0" />
+                            <span className="truncate"><a href={note.url} target='_blank'>{note.url}</a></span>
+                        </div>
+                    )}
+
+                    {/* Footer Date */}
+                    <div className="mt-auto pt-4 border-t border-border flex items-center text-xs text-muted-foreground">
+                        <Calendar size={14} className="mr-1.5" />
+                        {new Date(note.date).toDateString()}
+                    </div>
                 </div>
             </div>
-        </div>
+        </Link>
     )
 }
 

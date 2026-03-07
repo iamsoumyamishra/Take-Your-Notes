@@ -14,14 +14,14 @@ datasource db {
 }
 
 model Note {
-  id       String   @id @default(cuid())
+  id       String    @id @default(cuid())
   title    String
-  content  String?  @default("")
-  date     String
-  url      String?  @default("")
-  imageUrl String?  @default("")
-  type     String[] @default(["text"])
-  tags     String[] @default([])
+  content  String?   @default("")
+  date     DateTime? @default(now())
+  url      String?   @default("")
+  imageUrl String?   @default("")
+  type     String[]  @default(["text"])
+  tags     String[]  @default([])
 }
 
 // userId   String

@@ -40,7 +40,7 @@ export default function NoteOptions({ onEdit, onDelete, onExport }: NoteOptionsP
                     e.stopPropagation();
                     setIsOpen(!isOpen);
                 }}
-                className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-full hover:bg-accent focus:outline-none"
+                className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-full hover:bg-accent focus:outline-none cursor-pointer"
                 aria-label="Note options"
             >
                 <MoreVertical size={16} />
@@ -56,7 +56,7 @@ export default function NoteOptions({ onEdit, onDelete, onExport }: NoteOptionsP
                                 setIsOpen(false);
                                 onEdit?.();
                             }}
-                            className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-foreground hover:bg-accent transition-colors"
+                            className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-foreground hover:bg-accent transition-colors cursor-pointer"
                         >
                             <Edit2 size={14} className="text-blue-500" />
                             <span>Edit Note</span>
@@ -69,7 +69,7 @@ export default function NoteOptions({ onEdit, onDelete, onExport }: NoteOptionsP
                                 setIsOpen(false);
                                 onExport?.();
                             }}
-                            className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-foreground hover:bg-accent transition-colors"
+                            className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-foreground hover:bg-accent transition-colors cursor-pointer"
                         >
                             <Download size={14} className="text-emerald-500" />
                             <span>Export Data</span>
@@ -84,7 +84,7 @@ export default function NoteOptions({ onEdit, onDelete, onExport }: NoteOptionsP
                                 setIsOpen(false);
                                 onDelete?.();
                             }}
-                            className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-red-500 hover:bg-red-500/10 transition-colors"
+                            className="w-full flex items-center space-x-2 px-4 py-2.5 text-sm text-red-500 hover:bg-red-500/10 transition-colors cursor-pointer"
                         >
                             <Trash2 size={14} />
                             <span>Delete</span>

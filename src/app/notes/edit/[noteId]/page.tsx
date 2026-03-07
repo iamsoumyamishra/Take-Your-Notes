@@ -59,13 +59,46 @@ export default function EditNotePage() {
     }, [content, url, imagePreview])
 
     useEffect(() => {
-        if (noteId) {
-            // Dummy Data fetch for editing
-            console.log(`Fetching Note ${noteId} for Editing`);
-            setTitle("Previously saved note");
-            setContent("This content was fetched from the backend and prefilled.");
-            setType("Text");
-            setTags("updated, references");
+
+        const fetchNote = async () => {
+            const res = await fetch(`/api/notes/get-notes`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        noteId
+                    })
+                }
+            );
+            const data = await res.json();
+
+            return data;
+        }
+
+        let mounted = true;
+
+        fetchNote().then(data => {
+            if (mounted) {
+                setTitle(data.notes[0].title);
+                setContent(data.notes[0].content);
+                // setType(data.notes[0].type);
+                setTags(data.notes[0].tags.join(","));
+            }
+        });
+
+        // if (noteId) {
+        //     // Dummy Data fetch for editing
+        //     console.log(`Fetching Note ${noteId} for Editing`);
+        //     setTitle("Previously saved note");
+        //     setContent("This content was fetched from the backend and prefilled.");
+        //     setType("Text");
+        //     setTags("updated, references");
+        // }
+
+        return () => {
+            mounted = false;
         }
     }, [noteId]);
 
@@ -74,8 +107,8 @@ export default function EditNotePage() {
         console.log("Updating:", { noteId, title, type, content, url, tags, imagePreview });
 
         // Dummy Network Save Operation
-        const res = await fetch(`/api/notes/edit/${noteId}`, {
-            method: "PUT",
+        const res = await fetch(`/api/notes/update-note`, {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -85,7 +118,9 @@ export default function EditNotePage() {
                 content,
                 url,
                 tags: tags.split(",").map((tag) => tag.trim()),
-                imageUrl: imagePreview
+                imageUrl: imagePreview,
+                noteId,
+                date: new Date().toString()
             })
         });
 

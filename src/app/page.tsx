@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Search, Filter, ChevronDown } from "lucide-react";
 import Card from "@/components/Card";
 import { INote } from "@/types";
+import { useNotes } from "@/context/useNotes";
 
 type Filter = "All" | "Text" | "Link" | "Image" | "Video" | "Audio" | "File" | "Other"
 // Dummy Notes Data
@@ -69,7 +70,7 @@ const DUMMY_NOTES: INote[] = [
 
 export default function DashboardPage() {
 
-  const [notes, setNotes] = useState<INote[]>([]);
+  const { notes, setNotes } = useNotes();
   const [filter, setFilter] = useState<Filter>("All");
   const [searchQuery, setSearchQuery] = useState("");
 

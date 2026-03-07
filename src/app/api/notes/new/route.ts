@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
                 title,
                 type,
                 content: content || "",
-                date: Date.now().toString(),
+                date: new Date().toISOString(),
                 url,
                 imageUrl,
                 tags,
