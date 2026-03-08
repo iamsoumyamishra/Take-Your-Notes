@@ -1,11 +1,12 @@
 "use client"
 
 import { INote } from "@/types";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Image as ImageIcon, Link as LinkIcon, FileText, Calendar, ExternalLink, Edit2, Trash2 } from "lucide-react";
 import Spinner from "@/components/Spinner";
 import { useNotes } from "@/context/useNotes";
+import { useRouter } from "nextjs-toploader/app";
 
 const getTypeIcon = (type: string) => {
     switch (type) {
@@ -34,40 +35,22 @@ export default function NotePage() {
     const params: any = useParams();
     const [note, setNote] = useState<INote | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const { notes, setNotes } = useNotes()
+    const { notes, setNotes } = useNotes();
 
     useEffect(() => {
-        const fetchNote = async () => {
-            try {
-                const response = await fetch(`/api/notes/get-notes`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ noteId: params?.id }),
-                });
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error("Failed to fetch note:", error);
-                return null;
-            }
-        };
-
-        let mounted = true;
-        if (mounted) {
+        // Wait until global notes context has populated
+        if (notes === null) {
             setIsLoading(true);
-            fetchNote().then((data) => {
-                if (data && data.notes && data.notes.length > 0) {
-                    setNote(data.notes[0]);
-                }
-                setIsLoading(false);
-            });
+            return;
         }
-        return () => {
-            mounted = false;
-        };
-    }, [params?.id]);
+
+        // Find the matching note from the existing context state
+        const foundNote = notes.find((n) => n.id === params?.id);
+
+        setNote(foundNote || null);
+        setIsLoading(false);
+
+    }, [notes, params?.id]);
 
     if (isLoading) {
         return (
@@ -86,10 +69,10 @@ export default function NotePage() {
                     <p className="text-muted-foreground mb-8">The note you are looking for does not exist or has been deleted.</p>
                     <button
                         onClick={() => router.push("/")}
-                        className="flex items-center space-x-2 px-6 py-3 bg-foreground text-background rounded-xl font-bold hover:scale-105 transition-transform"
+                        className="flex items-center space-x-2 px-6 py-3 bg-foreground text-background rounded-xl font-bold hover:scale-105 transition-transform cursor-pointer"
                     >
                         <ArrowLeft size={18} />
-                        <span>Back to Dashboard</span>
+                        <span>Back</span>
                     </button>
                 </div>
             </div>
@@ -103,11 +86,11 @@ export default function NotePage() {
                 <div className="flex items-center justify-between mb-8">
                     <button
                         onClick={() => router.push("/")}
-                        className="flex flex-row items-center space-x-2 p-2 px-4 rounded-xl hover:bg-accent hover:text-foreground text-muted-foreground font-medium transition-colors border border-transparent hover:border-border"
-                        title="Back to Dashboard"
+                        className="flex flex-row items-center space-x-2 p-2 px-4 rounded-xl hover:bg-accent hover:text-foreground text-muted-foreground font-medium transition-colors border border-transparent hover:border-border cursor-pointer"
+                        title="Back"
                     >
                         <ArrowLeft size={18} />
-                        <span>Dashboard</span>
+                        <span>Back</span>
                     </button>
 
                     <div className="flex items-center space-x-3">
@@ -120,6 +103,7 @@ export default function NotePage() {
                         </button>
                         <button
                             onClick={async () => {
+                                if (!confirm("Are you sure you want to delete this note?")) return;
                                 await fetch("/api/notes/delete-note", {
                                     method: "POST",
                                     headers: {

@@ -2,12 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import { ArrowLeft, Image as ImageIcon, Link as LinkIcon, FileText, Upload, Save, Tag } from "lucide-react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { NoteType } from "@/types";
+import { useNotes } from "@/context/useNotes";
+import { useRouter } from "nextjs-toploader/app";
 
 type NoteTypeSections = "Text" | "Link" | "Image"
 
 export default function CreateNotePage() {
+    const { notes, setNotes } = useNotes()
     const router = useRouter();
     const [title, setTitle] = useState("");
     const [type, setType] = useState<NoteTypeSections>("Text");

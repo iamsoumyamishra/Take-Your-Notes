@@ -2,16 +2,21 @@
 
 import React, { useEffect, useState } from "react";
 import { ArrowLeft, Image as ImageIcon, Link as LinkIcon, FileText, Upload, Save, Tag } from "lucide-react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { NoteType } from "@/types";
+import { useTopLoader } from "nextjs-toploader";
+import { useRouter } from "nextjs-toploader/app";
+import { useNotes } from "@/context/useNotes";
 
 type NoteTypeSections = "Text" | "Link" | "Image"
 
 export default function EditNotePage() {
     const router = useRouter();
     const params = useParams();
+    const loader = useTopLoader();
     const noteId = params.noteId;
 
+    const { notes, setNotes } = useNotes();
     const [title, setTitle] = useState("");
     const [type, setType] = useState<NoteTypeSections>("Text");
     const [noteTypes, setNoteTypes] = useState<NoteType | string[]>([])
@@ -103,8 +108,10 @@ export default function EditNotePage() {
     }, [noteId]);
 
     const handleUpdate = async () => {
-        // Update logic later
-        console.log("Updating:", { noteId, title, type, content, url, tags, imagePreview });
+
+        // Loader Start
+
+        loader.start();
 
         // Dummy Network Save Operation
         const res = await fetch(`/api/notes/update-note`, {
@@ -123,6 +130,22 @@ export default function EditNotePage() {
                 date: new Date().toString()
             })
         });
+
+
+        if (res.ok) {
+
+            const data = await res.json();
+            setNotes(prev => {
+
+                if (!prev) return [data.note]
+                return (
+                    prev.map(note => note.id === noteId ? data.note : note)
+                )
+            })
+
+        }
+
+        loader.done()
 
         router.push("/");
         router.refresh();
