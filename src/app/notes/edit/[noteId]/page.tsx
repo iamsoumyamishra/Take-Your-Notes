@@ -124,7 +124,6 @@ export default function EditNotePage() {
             })
         });
 
-        // Always push to dashboard for dummy data setup right now
         router.push("/");
         router.refresh();
     };

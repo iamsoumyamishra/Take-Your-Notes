@@ -4,6 +4,8 @@ import { INote } from "@/types";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Image as ImageIcon, Link as LinkIcon, FileText, Calendar, ExternalLink, Edit2, Trash2 } from "lucide-react";
+import Spinner from "@/components/Spinner";
+import { useNotes } from "@/context/useNotes";
 
 const getTypeIcon = (type: string) => {
     switch (type) {
@@ -32,6 +34,7 @@ export default function NotePage() {
     const params: any = useParams();
     const [note, setNote] = useState<INote | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const { notes, setNotes } = useNotes()
 
     useEffect(() => {
         const fetchNote = async () => {
@@ -68,12 +71,7 @@ export default function NotePage() {
 
     if (isLoading) {
         return (
-            <div className="flex-1 p-8 h-screen overflow-y-auto w-full bg-background flex items-center justify-center">
-                <div className="flex flex-col items-center space-y-4">
-                    <div className="w-12 h-12 rounded-full border-4 border-violet-500/30 border-t-violet-500 animate-spin" />
-                    <p className="text-muted-foreground font-medium animate-pulse">Loading your note...</p>
-                </div>
-            </div>
+            <Spinner message="Loading your note..." />
         );
     }
 
@@ -115,14 +113,28 @@ export default function NotePage() {
                     <div className="flex items-center space-x-3">
                         <button
                             onClick={() => router.push(`/notes/edit/${note.id}`)}
-                            className="flex items-center space-x-2 px-4 py-2 bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 rounded-xl font-medium transition-colors border border-blue-500/20"
+                            className="flex items-center space-x-2 px-4 py-2 bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 rounded-xl font-medium transition-colors border border-blue-500/20 cursor-pointer"
                         >
                             <Edit2 size={16} />
                             <span className="hidden sm:inline">Edit</span>
                         </button>
                         <button
-                            onClick={() => console.log("Delete note")}
-                            className="flex items-center space-x-2 px-4 py-2 bg-red-500/10 text-red-500 hover:bg-red-500/20 rounded-xl font-medium transition-colors border border-red-500/20"
+                            onClick={async () => {
+                                await fetch("/api/notes/delete-note", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({ noteId: note.id }),
+                                });
+
+                                setNotes(notes && notes.filter((n) => n.id !== note.id))
+                                router.push("/")
+                                router.refresh()
+
+                            }}
+
+                            className="flex items-center space-x-2 px-4 py-2 bg-red-500/10 text-red-500 hover:bg-red-500/20 rounded-xl font-medium transition-colors border border-red-500/20 cursor-pointer"
                         >
                             <Trash2 size={16} />
                             <span className="hidden sm:inline">Delete</span>

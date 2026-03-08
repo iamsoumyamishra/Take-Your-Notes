@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
                 tags,
                 url,
                 type,
-                date: new Date().toLocaleDateString(),
+                date: new Date().toISOString(),
             }
         });
 

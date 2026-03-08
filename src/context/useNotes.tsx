@@ -3,10 +3,10 @@
 import { createContext, useContext, useState, useEffect } from "react"
 import { INote } from "@/types"
 
-const NotesContext = createContext<{ notes: INote[]; setNotes: React.Dispatch<React.SetStateAction<INote[]>> } | null>(null)
+const NotesContext = createContext<{ notes: INote[] | null; setNotes: React.Dispatch<React.SetStateAction<INote[] | null>> } | null>(null)
 
 export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
-    const [notes, setNotes] = useState<INote[]>([])
+    const [notes, setNotes] = useState<INote[] | null>(null)
 
     const fetchNotes = async () => {
         const response = await fetch("/api/notes/get-notes",

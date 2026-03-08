@@ -5,6 +5,7 @@ import { Search, Filter, ChevronDown } from "lucide-react";
 import Card from "@/components/Card";
 import { INote } from "@/types";
 import { useNotes } from "@/context/useNotes";
+import Spinner from "@/components/Spinner";
 
 type Filter = "All" | "Text" | "Link" | "Image" | "Video" | "Audio" | "File" | "Other"
 // Dummy Notes Data
@@ -73,8 +74,9 @@ export default function DashboardPage() {
   const { notes, setNotes } = useNotes();
   const [filter, setFilter] = useState<Filter>("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
-  const filteredNotes = notes.filter((note) => {
+  const filteredNotes = notes?.filter((note) => {
     const matchesFilter = filter === "All" || note.type.includes(filter);
     const matchesSearch =
       note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -83,35 +85,19 @@ export default function DashboardPage() {
   });
 
   useEffect(() => {
-    const fetchNotes = async () => {
-      const response = await fetch("/api/notes/get-notes",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({})
-        }
-      );
-      const data = await response.json();
-
-      return data
-
-
-    }
 
     let mounted = true;
 
-    fetchNotes().then(data => {
-      if (mounted) {
-        setNotes(data.notes);
+    if (mounted) {
+      if (notes) {
+        setIsLoading(false);
       }
-    })
+    }
 
     return () => {
       mounted = false;
     }
-  }, [])
+  }, [notes])
 
   return (
     <div className="flex-1 p-8 h-screen overflow-y-auto bg-background text-foreground scrollbar-none">
@@ -164,21 +150,30 @@ export default function DashboardPage() {
       </header>
 
       {/* Grid Layout of Notes */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-24">
-        {filteredNotes.map((note) => (
-          <Card key={note.id} note={note} />
-        ))}
-      </div>
 
-      {filteredNotes.length === 0 && (
-        <div className="flex flex-col items-center justify-center h-64 text-center">
-          <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mb-4">
-            <Search size={24} className="text-muted-foreground" />
-          </div>
-          <h3 className="text-lg font-bold text-foreground">No notes found</h3>
-          <p className="text-muted-foreground mt-1">Try adjusting your search or filters.</p>
-        </div>
-      )}
+      {
+        isLoading ? (
+          <Spinner message="Loading your notes..." />
+        ) : (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-24">
+              {filteredNotes?.map((note) => (
+                <Card key={note.id} note={note} />
+              ))}
+            </div>
+            {filteredNotes?.length === 0 && (
+              <div className="flex flex-col items-center justify-center h-64 text-center">
+                <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mb-4">
+                  <Search size={24} className="text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-bold text-foreground">No notes found</h3>
+                <p className="text-muted-foreground mt-1">Try adjusting your search or filters.</p>
+              </div>
+            )}
+          </>
+        )
+      }
     </div>
+
   );
 }
