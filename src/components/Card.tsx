@@ -37,7 +37,7 @@ const Card = ({ note }: { note: INote }) => {
 
             <div
                 key={note.id}
-                className="group flex flex-col bg-card hover:bg-accent/20 border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                className="group flex flex-col bg-card hover:bg-accent/20 border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full"
             >
                 {/* Image Thumbnail (if Image Type) */}
                 {note.type.includes("Image") && note.imageUrl && (
