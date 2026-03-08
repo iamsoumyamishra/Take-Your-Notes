@@ -79,7 +79,7 @@ const Card = ({ note }: { note: INote }) => {
                                     body: JSON.stringify({ noteId: note.id }),
                                 });
 
-                                setNotes(notes.filter((n) => n.id !== note.id))
+                                setNotes(notes && notes.filter((n) => n.id !== note.id))
                             }}
                             onExport={() => console.log("Export note", note.id)}
                         />
