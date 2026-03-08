@@ -104,7 +104,7 @@ export default function DashboardPage() {
       {/* Top Header */}
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-violet-500 to-fuchsia-600">
+          <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-primary to-accent-foreground">
             Dashboard
           </h1>
           <p className="text-muted-foreground mt-2 text-sm md:text-base">
@@ -116,14 +116,14 @@ export default function DashboardPage() {
           {/* Search Bar */}
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search size={18} className="text-muted-foreground group-focus-within:text-violet-500 transition-colors" />
+              <Search size={18} className="text-muted-foreground group-focus-within:text-primary transition-colors" />
             </div>
             <input
               type="text"
               placeholder="Search notes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 pr-4 py-2.5 bg-accent/30 hover:bg-accent/50 border border-border rounded-xl w-full md:w-72 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500 transition-all shadow-sm backdrop-blur-sm"
+              className="pl-10 pr-4 py-2.5 bg-accent/30 hover:bg-accent/50 border border-border rounded-xl w-full md:w-72 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all shadow-sm backdrop-blur-sm"
             />
           </div>
 
@@ -132,18 +132,18 @@ export default function DashboardPage() {
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value as Filter)}
-              className="appearance-none pl-10 pr-10 py-2.5 bg-accent/30 hover:bg-accent/50 border border-border rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500 transition-all shadow-sm font-medium backdrop-blur-sm"
+              className="appearance-none pl-10 pr-10 py-2.5 bg-accent/30 hover:bg-accent/50 border border-border rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all shadow-sm font-medium backdrop-blur-sm"
             >
-              <option value="All">All Types</option>
-              <option value="Link">Links</option>
-              <option value="Image">Images</option>
-              <option value="Text">Text</option>
+              <option value="All" className="bg-background/80 text-foreground">All Types</option>
+              <option value="Link" className="bg-background/80 text-foreground">Links</option>
+              <option value="Image" className="bg-background/80 text-foreground">Images</option>
+              <option value="Text" className="bg-background/80 text-foreground">Text</option>
             </select>
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Filter size={16} className="text-muted-foreground group-hover:text-violet-500 transition-colors" />
+              <Filter size={16} className="text-muted-foreground group-hover:text-primary transition-colors" />
             </div>
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <ChevronDown size={16} className="text-muted-foreground group-hover:text-violet-500 transition-colors" />
+              <ChevronDown size={16} className="text-muted-foreground group-hover:text-primary transition-colors" />
             </div>
           </div>
         </div>

@@ -1,5 +1,142 @@
 @import "tailwindcss";
 
+ 
+  /* =========================================
+  AVAILABLE THEMES TO CHOOSE FROM:
+  Copy the :root and .dark blocks you like 
+  and replace the active ones below!
+  =========================================
+
+  -----------------------------------------
+  1. "Oatmeal & Clay" (Warm & Earthy)
+  -----------------------------------------
+  :root {
+    --background: #fffdfa;
+    --foreground: #5c544d;
+    --primary: #c4a482;
+    --primary-foreground: #ffffff;
+    --secondary: #f5f0ec;
+    --secondary-foreground: #5c544d;
+    --muted: #fbf8f5;
+    --muted-foreground: #a69b91;
+    --accent: #f7ede4;
+    --accent-foreground: #8a735c;
+    --border: #e8dfd5;
+    --input: #e8dfd5;
+    --ring: #c4a482;
+    --sidebar: rgba(255, 253, 250, 0.7);
+    --sidebar-foreground: #7a7168;
+    --sidebar-border: #e8dfd5;
+    --sidebar-accent: #f7ede4;
+  }
+  .dark {
+    --background: #2b2826;
+    --foreground: #eae6e1;
+    --primary: #d5b898;
+    --primary-foreground: #1c1a18;
+    --secondary: #383431;
+    --secondary-foreground: #eae6e1;
+    --muted: #302d2a;
+    --muted-foreground: #a69b91;
+    --accent: rgba(213, 184, 152, 0.15);
+    --accent-foreground: #eadecc;
+    --border: rgba(234, 230, 225, 0.1);
+    --input: rgba(234, 230, 225, 0.1);
+    --ring: #d5b898;
+    --sidebar: rgba(43, 40, 38, 0.6);
+    --sidebar-foreground: #a69b91;
+    --sidebar-border: rgba(234, 230, 225, 0.1);
+    --sidebar-accent: rgba(56, 52, 49, 0.8);
+  } */
+
+
+  /* -----------------------------------------
+  2. "Soft Lavander & Ash" (Cool & Muted)
+  ----------------------------------------- */
+  :root {
+    --background: #fbfbff;
+    --foreground: #4a4a59;
+    --primary: #9494b8;
+    --primary-foreground: #ffffff;
+    --secondary: #f0f0f5;
+    --secondary-foreground: #4a4a59;
+    --muted: #f5f5fa;
+    --muted-foreground: #8a8a9e;
+    --accent: #ebebf2;
+    --accent-foreground: #5c5c7d;
+    --border: #dcdce6;
+    --input: #dcdce6;
+    --ring: #9494b8;
+    --sidebar: rgba(251, 251, 255, 0.7);
+    --sidebar-foreground: #6c6c80;
+    --sidebar-border: #dcdce6;
+    --sidebar-accent: #ebebf2;
+  }
+  .dark {
+    --background: #1c1c24;
+    --foreground: #e6e6f0;
+    --primary: #a3a3c9;
+    --primary-foreground: #0f0f14;
+    --secondary: #252530;
+    --secondary-foreground: #e6e6f0;
+    --muted: #21212a;
+    --muted-foreground: #8a8a9e;
+    --accent: rgba(163, 163, 201, 0.15);
+    --accent-foreground: #c2c2e0;
+    --border: rgba(230, 230, 240, 0.1);
+    --input: rgba(230, 230, 240, 0.1);
+    --ring: #a3a3c9;
+    --sidebar: rgba(28, 28, 36, 0.6);
+    --sidebar-foreground: #8a8a9e;
+    --sidebar-border: rgba(230, 230, 240, 0.1);
+    --sidebar-accent: rgba(37, 37, 48, 0.8);
+  } 
+ 
+  /* -----------------------------------------
+  3. "Muted Rose & Cocoa" (Gentle Pink)
+  ----------------------------------------- */
+  /* :root {
+    --background: #fffcfc;
+    --foreground: #5e4b4d;
+    --primary: #c98c92;
+    --primary-foreground: #ffffff;
+    --secondary: #f7eeef;
+    --secondary-foreground: #5e4b4d;
+    --muted: #fcf6f6;
+    --muted-foreground: #ab9597;
+    --accent: #f5e4e6;
+    --accent-foreground: #8a575e;
+    --border: #e8d5d7;
+    --input: #e8d5d7;
+    --ring: #c98c92;
+    --sidebar: rgba(255, 252, 252, 0.7);
+    --sidebar-foreground: #7d6769;
+    --sidebar-border: #e8d5d7;
+    --sidebar-accent: #f5e4e6;
+  }
+  .dark {
+    --background: #2b2223;
+    --foreground: #ebdce0;
+    --primary: #d69ea4;
+    --primary-foreground: #1c1516;
+    --secondary: #382c2d;
+    --secondary-foreground: #ebdce0;
+    --muted: #302627;
+    --muted-foreground: #ab9597;
+    --accent: rgba(214, 158, 164, 0.15);
+    --accent-foreground: #edc2c7;
+    --border: rgba(235, 220, 224, 0.1);
+    --input: rgba(235, 220, 224, 0.1);
+    --ring: #d69ea4;
+    --sidebar: rgba(43, 34, 35, 0.6);
+    --sidebar-foreground: #ab9597;
+    --sidebar-border: rgba(235, 220, 224, 0.1);
+    --sidebar-accent: rgba(56, 44, 45, 0.8);
+  } */
+
+  
+
+
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -28,45 +165,57 @@
 
 @layer base {
   :root {
-    --background: #fafafa;
-    --foreground: #18181b;
-    --primary: #8b5cf6;
+    /* Soothing "Sage & Stone" Light Theme */
+    --background: #fbfaf9;
+    --foreground: #4a5553;
+    
+    --primary: #6b8e83;
     --primary-foreground: #ffffff;
-    --secondary: #e4e4e7;
-    --secondary-foreground: #18181b;
-    --muted: #f4f4f5;
-    --muted-foreground: #71717a;
-    --accent: #ede9fe;
-    --accent-foreground: #6d28d9;
-    --border: #e4e4e7;
-    --input: #e4e4e7;
-    --ring: #8b5cf6;
+    
+    --secondary: #eef1ef;
+    --secondary-foreground: #4a5553;
+    
+    --muted: #f2f4f3;
+    --muted-foreground: #899a96;
+    
+    --accent: #e8eceb;
+    --accent-foreground: #3f544e;
+    
+    --border: #d8e0dd;
+    --input: #d8e0dd;
+    --ring: #6b8e83;
 
-    --sidebar: rgba(255, 255, 255, 0.7);
-    --sidebar-foreground: #52525b;
-    --sidebar-border: #e4e4e7;
-    --sidebar-accent: #f4f4f5;
+    --sidebar: rgba(251, 250, 249, 0.7);
+    --sidebar-foreground: #63736f;
+    --sidebar-border: #d8e0dd;
+    --sidebar-accent: #e8eceb;
   }
 
   .dark {
-    --background: #000000;
-    --foreground: #fafafa;
-    --primary: #8b5cf6;
-    --primary-foreground: #ffffff;
-    --secondary: #27272a;
-    --secondary-foreground: #fafafa;
-    --muted: #27272a;
-    --muted-foreground: #a1a1aa;
-    --accent: rgba(139, 92, 246, 0.1);
-    --accent-foreground: #c4b5fd;
-    --border: rgba(255, 255, 255, 0.1);
-    --input: rgba(255, 255, 255, 0.1);
-    --ring: #8b5cf6;
+    /* Soothing "Deep Forest & Slate" Dark Theme */
+    --background: #1e2322;
+    --foreground: #e3e8e6;
+    
+    --primary: #7aa497;
+    --primary-foreground: #111615;
+    
+    --secondary: #2a3230;
+    --secondary-foreground: #e3e8e6;
+    
+    --muted: #262d2b;
+    --muted-foreground: #899a96;
+    
+    --accent: rgba(122, 164, 151, 0.15);
+    --accent-foreground: #a8ccbf;
+    
+    --border: rgba(227, 232, 230, 0.1);
+    --input: rgba(227, 232, 230, 0.1);
+    --ring: #7aa497;
 
-    --sidebar: rgba(24, 24, 27, 0.5);
-    --sidebar-foreground: #a1a1aa;
-    --sidebar-border: rgba(255, 255, 255, 0.1);
-    --sidebar-accent: rgba(39, 39, 42, 0.8);
+    --sidebar: rgba(30, 35, 34, 0.6);
+    --sidebar-foreground: #899a96;
+    --sidebar-border: rgba(227, 232, 230, 0.1);
+    --sidebar-accent: rgba(42, 50, 48, 0.8);
   }
 }
 

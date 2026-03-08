@@ -58,7 +58,7 @@ export default function Sidebar() {
 
             {/* Logo Area */}
             <div className={`p-6 flex items-center transition-all duration-300 ${isExpanded ? "space-x-4" : "justify-center"}`}>
-                <div className="w-10 h-10 rounded-xl bg-linear-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-violet-500/30 shrink-0 relative overflow-hidden group">
+                <div className="w-10 h-10 rounded-xl bg-linear-to-br from-primary to-accent-foreground flex items-center justify-center shadow-lg shadow-primary/30 shrink-0 relative overflow-hidden group">
                     <div className="absolute inset-0 bg-white/20 group-hover:translate-x-full transition-transform duration-500 ease-out skew-x-12 -ml-6" />
                     <BookOpen size={20} className="text-white relative z-10" />
                 </div>
@@ -92,7 +92,7 @@ export default function Sidebar() {
                         className={`flex items-center space-x-3.5 px-3 py-2.5 rounded-xl text-sidebar-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-200 group relative overflow-hidden ${!isExpanded ? "justify-center" : ""}`}
                         title={!isExpanded ? item.label : undefined}
                     >
-                        <div className="absolute inset-0 bg-linear-to-r from-violet-500/0 to-violet-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="absolute inset-0 bg-linear-to-r from-primary/0 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity w-full" />
                         <item.icon size={20} className="shrink-0 group-hover:scale-110 transition-transform duration-200 relative z-10" />
                         {isExpanded && <span className="font-medium whitespace-nowrap relative z-10">{item.label}</span>}
                     </Link>

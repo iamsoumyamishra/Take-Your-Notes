@@ -86,7 +86,7 @@ const Card = ({ note }: { note: INote }) => {
                     </div>
 
                     {/* Title & Content */}
-                    <h3 className="font-bold text-lg text-foreground mb-2 line-clamp-1 group-hover:text-violet-500 transition-colors">
+                    <h3 className="font-bold text-lg text-foreground mb-2 line-clamp-1 group-hover:text-primary transition-colors">
                         {note.title}
                     </h3>
                     <p className="text-muted-foreground text-sm line-clamp-3 mb-4 flex-1">

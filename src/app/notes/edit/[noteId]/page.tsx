@@ -141,7 +141,7 @@ export default function EditNotePage() {
                         <ArrowLeft size={24} />
                     </button>
                     <div>
-                        <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-violet-500 to-fuchsia-600">
+                        <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-primary to-accent-foreground">
                             Edit Note
                         </h1>
                         <p className="text-muted-foreground text-sm mt-1">
@@ -189,7 +189,7 @@ export default function EditNotePage() {
                                 placeholder="Start writing your note here..."
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
-                                className="w-full min-h-[300px] p-5 bg-accent/10 border border-border rounded-2xl focus:outline-none focus:ring-2 focus:ring-violet-500/50 resize-y transition-all placeholder:text-muted-foreground text-base leading-relaxed hover:bg-accent/20"
+                                className="w-full min-h-[300px] p-5 bg-accent/10 border border-border rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/50 resize-y transition-all placeholder:text-muted-foreground text-base leading-relaxed hover:bg-accent/20"
                             />
                         )}
 
@@ -197,20 +197,20 @@ export default function EditNotePage() {
                             <div className="space-y-4">
                                 <div className="relative group">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                        <LinkIcon size={18} className="text-muted-foreground group-focus-within:text-violet-500 transition-colors" />
+                                        <LinkIcon size={18} className="text-muted-foreground group-focus-within:text-primary transition-colors" />
                                     </div>
                                     <input
                                         type="url"
                                         placeholder="https://example.com"
                                         value={url}
                                         onChange={(e) => setUrl(e.target.value)}
-                                        className="w-full pl-12 pr-4 py-3.5 bg-accent/10 border border-border rounded-2xl focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-all font-medium hover:bg-accent/20"
+                                        className="w-full pl-12 pr-4 py-3.5 bg-accent/10 border border-border rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium hover:bg-accent/20"
                                     />
                                 </div>
                                 {url && (
                                     <div className="p-4 bg-accent/10 border border-border rounded-2xl flex items-center space-x-4 animate-in fade-in slide-in-from-top-2">
                                         <div className="w-12 h-12 bg-background rounded-xl flex items-center justify-center border border-border shrink-0">
-                                            <LinkIcon size={20} className="text-violet-500" />
+                                            <LinkIcon size={20} className="text-primary" />
                                         </div>
                                         <div>
                                             <h4 className="font-semibold text-foreground line-clamp-1">{url}</h4>
@@ -224,9 +224,9 @@ export default function EditNotePage() {
                         {type === "Image" && (
                             <div className="w-full relative">
                                 {!imagePreview ? (
-                                    <label className="w-full h-64 flex flex-col items-center justify-center border-2 border-dashed border-border rounded-2xl bg-accent/5 hover:bg-accent/20 hover:border-violet-500/50 transition-all cursor-pointer group">
-                                        <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-sm border border-border group-hover:border-violet-500/30">
-                                            <Upload size={24} className="text-muted-foreground group-hover:text-violet-500 transition-colors" />
+                                    <label className="w-full h-64 flex flex-col items-center justify-center border-2 border-dashed border-border rounded-2xl bg-accent/5 hover:bg-accent/20 hover:border-primary/50 transition-all cursor-pointer group">
+                                        <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-sm border border-border group-hover:border-primary/30">
+                                            <Upload size={24} className="text-muted-foreground group-hover:text-primary transition-colors" />
                                         </div>
                                         <span className="font-semibold text-foreground text-lg">Click to upload image</span>
                                         <span className="text-sm text-muted-foreground mt-2">SVG, PNG, JPG or GIF (max. 5MB)</span>
@@ -259,7 +259,7 @@ export default function EditNotePage() {
                             placeholder="e.g., design, references, todo (comma separated)"
                             value={tags}
                             onChange={(e) => setTags(e.target.value)}
-                            className="w-full px-4 py-3.5 bg-accent/10 hover:bg-accent/20 border border-border rounded-2xl focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-all"
+                            className="w-full px-4 py-3.5 bg-accent/10 hover:bg-accent/20 border border-border rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                         />
                     </div>
 
