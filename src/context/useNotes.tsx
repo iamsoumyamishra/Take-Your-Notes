@@ -29,7 +29,6 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
         let mounted = true;
 
         fetchNotes().then(data => {
-            console.log(2)
             if (mounted) {
                 setNotes(data.notes);
             }

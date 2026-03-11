@@ -5,12 +5,14 @@ import { ArrowLeft, Image as ImageIcon, Link as LinkIcon, FileText, Upload, Save
 // import { useRouter } from "next/navigation";
 import { NoteType } from "@/types";
 import { useNotes } from "@/context/useNotes";
-import { useRouter } from "nextjs-toploader/app";
+import { useRouter } from "next/navigation";
+import { useTopLoader } from "nextjs-toploader";
 
 type NoteTypeSections = "Text" | "Link" | "Image"
 
 export default function CreateNotePage() {
     const { notes, setNotes } = useNotes()
+    const loader = useTopLoader()
     const router = useRouter();
     const [title, setTitle] = useState("");
     const [type, setType] = useState<NoteTypeSections>("Text");
@@ -19,6 +21,7 @@ export default function CreateNotePage() {
     const [url, setUrl] = useState("");
     const [tags, setTags] = useState("");
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [isSaving, setIsSaving] = useState<boolean>(false)
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -59,8 +62,9 @@ export default function CreateNotePage() {
     }, [content, url, imagePreview])
 
     const handleSave = async () => {
-        // Save logic later
-        console.log({ title, type, content, url, tags, imagePreview });
+
+        loader.start()
+        setIsSaving(true);
 
         const res = await fetch("/api/notes/new", {
             method: "POST",
@@ -77,7 +81,12 @@ export default function CreateNotePage() {
             })
         });
 
+        const data = await res.json()
+
+        loader.done()
+        setIsSaving(false);
         if (res.ok) {
+            setNotes(prev => prev && [...prev, data.note])
             router.push("/");
             router.refresh();
         }
@@ -228,7 +237,8 @@ export default function CreateNotePage() {
                         </button>
                         <button
                             onClick={handleSave}
-                            className="flex items-center space-x-2 px-6 py-2.5 bg-foreground text-background hover:scale-105 active:scale-95 rounded-xl font-bold transition-all shadow-lg cursor-pointer"
+                            disabled={isSaving}
+                            className="flex items-center space-x-2 px-6 py-2.5 bg-foreground text-background hover:scale-105 active:scale-95 rounded-xl font-bold transition-all shadow-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <Save size={18} />
                             <span>Save Note</span>

@@ -3,12 +3,14 @@ import { INote } from '@/types';
 import NoteOptions from './NoteOptions';
 import { useNotes } from '@/context/useNotes';
 import { useRouter } from 'nextjs-toploader/app';
+import { useTopLoader } from 'nextjs-toploader';
 
 
 const Card = ({ note }: { note: INote }) => {
 
     const { notes, setNotes } = useNotes()
     const router = useRouter();
+    const loader = useTopLoader()
 
     const getTypeIcon = (type: string) => {
         switch (type) {
@@ -70,6 +72,8 @@ const Card = ({ note }: { note: INote }) => {
                     <NoteOptions
                         onEdit={() => router.push(`/notes/edit/${note.id}`)}
                         onDelete={async () => {
+                            if (!confirm("Are you sure you want to delete this note?")) return;
+                            loader.start();
                             await fetch("/api/notes/delete-note", {
                                 method: "POST",
                                 headers: {
@@ -77,8 +81,8 @@ const Card = ({ note }: { note: INote }) => {
                                 },
                                 body: JSON.stringify({ noteId: note.id }),
                             });
-
                             setNotes(notes && notes.filter((n) => n.id !== note.id))
+                            loader.done();
                         }}
                         onExport={() => console.log("Export note", note.id)}
                     />

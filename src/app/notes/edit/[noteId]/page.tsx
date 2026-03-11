@@ -23,7 +23,8 @@ export default function EditNotePage() {
     const [content, setContent] = useState("");
     const [url, setUrl] = useState("");
     const [tags, setTags] = useState("");
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | undefined | null>(undefined);
+    const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -53,7 +54,7 @@ export default function EditNotePage() {
         } else {
             setNoteTypes(prev => prev.filter(t => t !== "Link"))
         }
-        if (imagePreview !== null) {
+        if (imagePreview !== undefined && imagePreview !== null) {
             setNoteTypes(prev => {
                 if (prev.includes("Image")) return prev;
                 return [...prev, "Image"]
@@ -65,42 +66,17 @@ export default function EditNotePage() {
 
     useEffect(() => {
 
-        const fetchNote = async () => {
-            const res = await fetch(`/api/notes/get-notes`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        noteId
-                    })
-                }
-            );
-            const data = await res.json();
-
-            return data;
-        }
 
         let mounted = true;
 
-        fetchNote().then(data => {
+        notes?.filter(note => note.id === noteId).map(note => {
             if (mounted) {
-                setTitle(data.notes[0].title);
-                setContent(data.notes[0].content);
-                // setType(data.notes[0].type);
-                setTags(data.notes[0].tags.join(","));
+                setTitle(note.title);
+                setContent(note.content ?? "");
+                setTags(note.tags?.join(",") || "");
+                setImagePreview(note.imageUrl);
             }
         });
-
-        // if (noteId) {
-        //     // Dummy Data fetch for editing
-        //     console.log(`Fetching Note ${noteId} for Editing`);
-        //     setTitle("Previously saved note");
-        //     setContent("This content was fetched from the backend and prefilled.");
-        //     setType("Text");
-        //     setTags("updated, references");
-        // }
 
         return () => {
             mounted = false;
@@ -109,11 +85,9 @@ export default function EditNotePage() {
 
     const handleUpdate = async () => {
 
-        // Loader Start
-
         loader.start();
+        setIsUpdating(true);
 
-        // Dummy Network Save Operation
         const res = await fetch(`/api/notes/update-note`, {
             method: "POST",
             headers: {
@@ -144,6 +118,8 @@ export default function EditNotePage() {
             })
 
         }
+
+        setIsUpdating(false);
 
         loader.done()
 
@@ -296,7 +272,8 @@ export default function EditNotePage() {
                         </button>
                         <button
                             onClick={handleUpdate}
-                            className="flex items-center space-x-2 px-6 py-2.5 bg-foreground text-background hover:scale-105 active:scale-95 rounded-xl font-bold transition-all shadow-lg cursor-pointer"
+                            disabled={isUpdating}
+                            className="flex items-center space-x-2 px-6 py-2.5 bg-foreground text-background hover:scale-105 active:scale-95 rounded-xl font-bold transition-all shadow-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <Save size={18} />
                             <span>Update Note</span>
