@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Note" ALTER COLUMN "url" SET DEFAULT '',
-ALTER COLUMN "imageUrl" SET DEFAULT '';

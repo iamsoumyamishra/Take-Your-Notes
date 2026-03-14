@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { ThemeProvider } from "next-themes";
 import Sidebar from "@/components/Sidebar";
 import { NotesProvider } from "@/context/useNotes";
 import NextTopLoader from "nextjs-toploader";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,11 +24,21 @@ export const metadata: Metadata = {
   description: "Take Your Notes",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
+
+
+  if (!session) {
+    redirect("/sign-in")
+  }
+
   return (
     <html lang="en">
       <body

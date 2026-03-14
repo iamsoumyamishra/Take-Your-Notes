@@ -7,6 +7,7 @@ import { NoteType } from "@/types";
 import { useTopLoader } from "nextjs-toploader";
 import { useRouter } from "nextjs-toploader/app";
 import { useNotes } from "@/context/useNotes";
+import { useSession } from "@/lib/auth-client";
 
 type NoteTypeSections = "Text" | "Link" | "Image"
 
@@ -25,6 +26,7 @@ export default function EditNotePage() {
     const [tags, setTags] = useState("");
     const [imagePreview, setImagePreview] = useState<string | undefined | null>(undefined);
     const [isUpdating, setIsUpdating] = useState<boolean>(false);
+    const { data: session, error, isPending, isRefetching, refetch } = useSession()
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -101,7 +103,8 @@ export default function EditNotePage() {
                 tags: tags.split(",").map((tag) => tag.trim()),
                 imageUrl: imagePreview,
                 noteId,
-                date: new Date().toString()
+                date: new Date().toString(),
+                userId: session?.user?.id
             })
         });
 

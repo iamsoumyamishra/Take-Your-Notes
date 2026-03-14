@@ -19,11 +19,18 @@ import {
     Trash2
 } from "lucide-react";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function Sidebar() {
     const [isExpanded, setIsExpanded] = useState(true);
     const [mounted, setMounted] = useState(false);
     const { theme, setTheme } = useTheme();
+    const router = useRouter()
+
+
+    const { data: session, isPending, error, refetch } = authClient.useSession()
+
 
     // Next-themes hydration mismatch fix
     useEffect(() => {
@@ -41,6 +48,12 @@ export default function Sidebar() {
         { icon: User, label: "Profile", href: "#" },
         { icon: Settings, label: "Settings", href: "#" },
     ];
+
+    const handleSignOut = async () => {
+        await authClient.signOut()
+        router.push("/sign-in")
+
+    }
 
     return (
         <aside
@@ -122,17 +135,24 @@ export default function Sidebar() {
                 </button>
 
                 {/* User Profile Snippet */}
-                <div className={`mt-4 flex items-center ${isExpanded ? 'space-x-3 px-2' : 'justify-center'} cursor-pointer group`}>
+                {session ? <div className={`mt-4 flex items-center ${isExpanded ? 'space-x-3 px-2' : 'justify-center'} cursor-pointer group`} onClick={handleSignOut}>
                     <div className="w-9 h-9 rounded-full bg-sidebar-accent flex items-center justify-center shrink-0 border border-sidebar-border overflow-hidden">
                         <User size={16} className="text-sidebar-foreground group-hover:scale-110 transition-transform" />
                     </div>
                     {isExpanded && (
                         <div className="flex flex-col min-w-0">
-                            <span className="text-sm font-semibold text-foreground truncate">Alex Developer</span>
-                            <span className="text-xs text-sidebar-foreground truncate">Pro Plan</span>
+                            <span className="text-sm font-semibold text-foreground truncate">{session?.user?.name}</span>
+                            <span className="text-xs text-sidebar-foreground truncate">{session?.user?.email}</span>
                         </div>
                     )}
-                </div>
+                </div> : <div className={`mt-4 flex items-center ${isExpanded ? 'space-x-3 px-2' : 'justify-center'} cursor-pointer group`}>
+                    <div className="w-9 h-9 flex items-center justify-center shrink-0 overflow-hidden">
+                        <div className="w-5 h-5 rounded-full border-2 border-sidebar-border border-t-transparent animate-spin shrink-0" />
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                        <span className="text-sm text-sidebar-foreground truncate">Loading...</span>
+                    </div>
+                </div>}
             </div>
         </aside>
     );

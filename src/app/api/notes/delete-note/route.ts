@@ -3,9 +3,16 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
     try {
-        const { noteId } = await req.json();
+        const { noteId, userId } = await req.json();
+        console.log(userId)
+
+        if (!userId || !noteId) {
+            return NextResponse.json({ error: "No noteId or userId provided" }, { status: 400 })
+        }
+
         const note = await prisma.note.delete({
             where: {
+                userId: userId,
                 id: noteId
             }
         });

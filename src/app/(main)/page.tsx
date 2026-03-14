@@ -9,63 +9,6 @@ import Spinner from "@/components/Spinner";
 
 type Filter = "All" | "Text" | "Link" | "Image" | "Video" | "Audio" | "File" | "Other"
 // Dummy Notes Data
-const DUMMY_NOTES: INote[] = [
-  {
-    id: "223",
-    title: "10 CSS Tricks for Next.js",
-    type: ["Text", "Link", "Image"],
-    content: "A great article on how to master CSS in modern Next.js apps using Tailwind and CSS modules...",
-    date: "Oct 12, 2023",
-    imageUrl: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=600&auto=format&fit=crop",
-    url: "https://example.com/css-tricks"
-  },
-  {
-    id: "1",
-    title: "10 CSS Tricks for Next.js",
-    type: ["Link"],
-    content: "A great article on how to master CSS in modern Next.js apps using Tailwind and CSS modules...",
-    date: "Oct 12, 2023",
-    url: "https://example.com/css-tricks"
-  },
-  {
-    id: "2",
-    title: "Project Architecture Diagram",
-    type: ["Image"],
-    content: "Visual representation of the new microservices architecture we are planning to adopt in Q4.",
-    imageUrl: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=600&auto=format&fit=crop",
-    date: "Oct 14, 2023",
-  },
-  {
-    id: "3",
-    title: "Meeting Notes: Q4 Planning",
-    type: ["Text"],
-    content: "Discussed upcoming roadmap specifically around performance improvements and database restructuring. Action items: 1. Optimize images 2. Review indexing.",
-    date: "Oct 15, 2023",
-  },
-  {
-    id: "4",
-    title: "Figma Inspiration Board",
-    type: ["Link"],
-    content: "Collection of references for the new landing page UI.",
-    date: "Oct 18, 2023",
-    url: "https://figma.com/file/xyz123"
-  },
-  {
-    id: "5",
-    title: "Random Ideas",
-    type: ["Text"],
-    content: "Write a blog post about how artificial intelligence is shaping modern personal knowledge management.",
-    date: "Oct 20, 2023",
-  },
-  {
-    id: "6",
-    title: "Vacation Photos",
-    type: ["Image"],
-    content: "Trip to the mountains, remember to edit these later.",
-    imageUrl: "https://images.unsplash.com/photo-1506744626753-dba37c259d1b?q=80&w=600&auto=format&fit=crop",
-    date: "Oct 22, 2023",
-  },
-];
 
 
 

@@ -6,20 +6,23 @@ import { NextResponse, NextRequest } from "next/server";
 export async function POST(req: NextRequest) {
 
     try {
-        const { noteId } = await req.json();
+        const { noteId, userId } = await req.json();
+
+        if (!userId) {
+            return NextResponse.json({ error: "No noteId or userId provided" }, { status: 400 })
+        }
 
         const query: any = {
+            where: {
+                id: noteId,
+                userId: userId
+            },
             orderBy: {
                 date: "desc"
             },
             take: 100
         }
 
-        if (noteId) {
-            query.where = {
-                id: noteId
-            }
-        }
 
         const rawNotes = await prisma.note.findMany(query);
 

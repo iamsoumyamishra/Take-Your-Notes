@@ -4,7 +4,7 @@ import { INote } from "@/types";
 
 export async function POST(req: NextRequest) {
     try {
-        const { title, type, content, url, tags, imageUrl }: INote = await req.json();
+        const { title, type, content, url, tags, imageUrl, userId }: INote = await req.json();
         const note = await prisma.note.create({
             data: {
                 title,
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
                 url,
                 imageUrl,
                 tags,
-
+                userId
             },
         });
         return NextResponse.json({ note });

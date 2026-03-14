@@ -9,6 +9,7 @@ interface INote {
     url?: string;
     imageUrl?: string;
     tags?: string[];
+    userId: string;
 }
 
 export type { NoteType, INote };

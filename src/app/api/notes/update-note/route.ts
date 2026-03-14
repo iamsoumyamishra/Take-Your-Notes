@@ -5,11 +5,16 @@ import { prisma } from "@/lib/prisma";
 export async function POST(req: NextRequest) {
 
     try {
-        let { title, type, content, url, imageUrl, noteId, tags } = await req.json();
+        let { title, type, content, url, imageUrl, noteId, tags, userId } = await req.json();
+
+        if (!userId) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+        }
 
         const note = await prisma.note.update({
             where: {
-                id: noteId
+                id: noteId,
+                userId
             },
             data: {
                 title,

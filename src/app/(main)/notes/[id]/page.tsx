@@ -7,6 +7,8 @@ import { ArrowLeft, Image as ImageIcon, Link as LinkIcon, FileText, Calendar, Ex
 import Spinner from "@/components/Spinner";
 import { useNotes } from "@/context/useNotes";
 import { useRouter } from "nextjs-toploader/app";
+import { useSession } from "@/lib/auth-client";
+import { useTopLoader } from "nextjs-toploader";
 
 const getTypeIcon = (type: string) => {
     switch (type) {
@@ -36,6 +38,8 @@ export default function NotePage() {
     const [note, setNote] = useState<INote | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const { notes, setNotes } = useNotes();
+    const { data: session, error, isPending, isRefetching, refetch } = useSession()
+    const loader = useTopLoader()
 
     useEffect(() => {
         // Wait until global notes context has populated
@@ -103,18 +107,33 @@ export default function NotePage() {
                         </button>
                         <button
                             onClick={async () => {
-                                if (!confirm("Are you sure you want to delete this note?")) return;
-                                await fetch("/api/notes/delete-note", {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                    },
-                                    body: JSON.stringify({ noteId: note.id }),
-                                });
 
-                                setNotes(notes && notes.filter((n) => n.id !== note.id))
-                                router.push("/")
-                                router.refresh()
+                                loader.start()
+                                if (!confirm("Are you sure you want to delete this note?")) return;
+                                const deleteNote = async () => {
+                                    const res = await fetch("/api/notes/delete-note", {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify({ noteId: note.id, userId: session?.user?.id }),
+                                    });
+
+                                    return res.json()
+                                }
+
+
+                                deleteNote().then(res => {
+                                    if (res.error) {
+                                        alert(res.error)
+                                        loader.done()
+                                        return
+                                    }
+                                    setNotes(notes && notes.filter((n) => n.id !== note.id))
+                                    loader.done()
+                                    router.push("/")
+                                    router.refresh()
+                                })
 
                             }}
 
