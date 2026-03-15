@@ -4,13 +4,37 @@ import NoteOptions from './NoteOptions';
 import { useNotes } from '@/context/useNotes';
 import { useRouter } from 'nextjs-toploader/app';
 import { useTopLoader } from 'nextjs-toploader';
+import { StripEmptyObjects } from 'better-auth';
 
 
-const Card = ({ note }: { note: INote }) => {
+const Card = ({ note, session }: {
+    note: INote, session: {
+        user: StripEmptyObjects<{
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            email: string;
+            emailVerified: boolean;
+            name: string;
+            image?: string | null | undefined;
+        }>;
+        session: StripEmptyObjects<{
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            expiresAt: Date;
+            token: string;
+            ipAddress?: string | null | undefined;
+            userAgent?: string | null | undefined;
+        }>;
+    } | null
+}) => {
 
     const { notes, setNotes } = useNotes()
     const router = useRouter();
     const loader = useTopLoader()
+
 
     const getTypeIcon = (type: string) => {
         switch (type) {
@@ -79,7 +103,7 @@ const Card = ({ note }: { note: INote }) => {
                                 headers: {
                                     "Content-Type": "application/json",
                                 },
-                                body: JSON.stringify({ noteId: note.id }),
+                                body: JSON.stringify({ noteId: note.id, userId: session?.user.id }),
                             });
                             setNotes(notes && notes.filter((n) => n.id !== note.id))
                             loader.done();

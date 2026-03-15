@@ -6,6 +6,7 @@ import Card from "@/components/Card";
 import { INote } from "@/types";
 import { useNotes } from "@/context/useNotes";
 import Spinner from "@/components/Spinner";
+import { useSession } from "@/lib/auth-client";
 
 type Filter = "All" | "Text" | "Link" | "Image" | "Video" | "Audio" | "File" | "Other"
 // Dummy Notes Data
@@ -15,6 +16,7 @@ type Filter = "All" | "Text" | "Link" | "Image" | "Video" | "Audio" | "File" | "
 export default function DashboardPage() {
 
   const { notes, setNotes } = useNotes();
+  const { data: session } = useSession();
   const [filter, setFilter] = useState<Filter>("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -101,7 +103,7 @@ export default function DashboardPage() {
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-24">
               {filteredNotes?.map((note) => (
-                <Card key={note.id} note={note} />
+                <Card key={note.id} note={note} session={session} />
               ))}
             </div>
             {filteredNotes?.length === 0 && (
