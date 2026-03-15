@@ -21,6 +21,7 @@ import {
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Sidebar() {
     const [isExpanded, setIsExpanded] = useState(true);
@@ -137,7 +138,11 @@ export default function Sidebar() {
                 {/* User Profile Snippet */}
                 {session ? <div className={`mt-4 flex items-center ${isExpanded ? 'space-x-3 px-2' : 'justify-center'} cursor-pointer group`} onClick={handleSignOut}>
                     <div className="w-9 h-9 rounded-full bg-sidebar-accent flex items-center justify-center shrink-0 border border-sidebar-border overflow-hidden">
-                        <User size={16} className="text-sidebar-foreground group-hover:scale-110 transition-transform" />
+                        {
+                            session?.user?.image ?
+                                <Image src={session?.user?.image || ""} alt={session?.user?.name || ""} width={36} height={36} className="rounded-full" />
+                                : <User size={16} className="text-sidebar-foreground group-hover:scale-110 transition-transform" />
+                        }
                     </div>
                     {isExpanded && (
                         <div className="flex flex-col min-w-0">

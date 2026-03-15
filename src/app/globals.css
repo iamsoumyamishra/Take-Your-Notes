@@ -1,55 +1,5 @@
 @import "tailwindcss";
 
- 
-  /* =========================================
-  AVAILABLE THEMES TO CHOOSE FROM:
-  Copy the :root and .dark blocks you like 
-  and replace the active ones below!
-  =========================================
-
-  -----------------------------------------
-  1. "Oatmeal & Clay" (Warm & Earthy)
-  -----------------------------------------
-  :root {
-    --background: #fffdfa;
-    --foreground: #5c544d;
-    --primary: #c4a482;
-    --primary-foreground: #ffffff;
-    --secondary: #f5f0ec;
-    --secondary-foreground: #5c544d;
-    --muted: #fbf8f5;
-    --muted-foreground: #a69b91;
-    --accent: #f7ede4;
-    --accent-foreground: #8a735c;
-    --border: #e8dfd5;
-    --input: #e8dfd5;
-    --ring: #c4a482;
-    --sidebar: rgba(255, 253, 250, 0.7);
-    --sidebar-foreground: #7a7168;
-    --sidebar-border: #e8dfd5;
-    --sidebar-accent: #f7ede4;
-  }
-  .dark {
-    --background: #2b2826;
-    --foreground: #eae6e1;
-    --primary: #d5b898;
-    --primary-foreground: #1c1a18;
-    --secondary: #383431;
-    --secondary-foreground: #eae6e1;
-    --muted: #302d2a;
-    --muted-foreground: #a69b91;
-    --accent: rgba(213, 184, 152, 0.15);
-    --accent-foreground: #eadecc;
-    --border: rgba(234, 230, 225, 0.1);
-    --input: rgba(234, 230, 225, 0.1);
-    --ring: #d5b898;
-    --sidebar: rgba(43, 40, 38, 0.6);
-    --sidebar-foreground: #a69b91;
-    --sidebar-border: rgba(234, 230, 225, 0.1);
-    --sidebar-accent: rgba(56, 52, 49, 0.8);
-  } */
-
-
   /* -----------------------------------------
   2. "Soft Lavander & Ash" (Cool & Muted)
   ----------------------------------------- */
@@ -71,6 +21,9 @@
     --sidebar-foreground: #6c6c80;
     --sidebar-border: #dcdce6;
     --sidebar-accent: #ebebf2;
+    --type-color-purple: oklch(62.7% 0.265 303.9);
+    --type-color-emerald: oklch(69.6% 0.17 162.48);
+    --type-color-blue: oklch(62.3% 0.214 259.815); 
   }
   .dark {
     --background: #1c1c24;
@@ -90,50 +43,11 @@
     --sidebar-foreground: #8a8a9e;
     --sidebar-border: rgba(230, 230, 240, 0.1);
     --sidebar-accent: rgba(37, 37, 48, 0.8);
+    --type-color-purple: oklch(82.7% 0.119 306.383);
+    --type-color-emerald: #5ee9b5;
+    --type-color-blue: oklch(80.9% 0.105 251.813); 
   } 
  
-  /* -----------------------------------------
-  3. "Muted Rose & Cocoa" (Gentle Pink)
-  ----------------------------------------- */
-  /* :root {
-    --background: #fffcfc;
-    --foreground: #5e4b4d;
-    --primary: #c98c92;
-    --primary-foreground: #ffffff;
-    --secondary: #f7eeef;
-    --secondary-foreground: #5e4b4d;
-    --muted: #fcf6f6;
-    --muted-foreground: #ab9597;
-    --accent: #f5e4e6;
-    --accent-foreground: #8a575e;
-    --border: #e8d5d7;
-    --input: #e8d5d7;
-    --ring: #c98c92;
-    --sidebar: rgba(255, 252, 252, 0.7);
-    --sidebar-foreground: #7d6769;
-    --sidebar-border: #e8d5d7;
-    --sidebar-accent: #f5e4e6;
-  }
-  .dark {
-    --background: #2b2223;
-    --foreground: #ebdce0;
-    --primary: #d69ea4;
-    --primary-foreground: #1c1516;
-    --secondary: #382c2d;
-    --secondary-foreground: #ebdce0;
-    --muted: #302627;
-    --muted-foreground: #ab9597;
-    --accent: rgba(214, 158, 164, 0.15);
-    --accent-foreground: #edc2c7;
-    --border: rgba(235, 220, 224, 0.1);
-    --input: rgba(235, 220, 224, 0.1);
-    --ring: #d69ea4;
-    --sidebar: rgba(43, 34, 35, 0.6);
-    --sidebar-foreground: #ab9597;
-    --sidebar-border: rgba(235, 220, 224, 0.1);
-    --sidebar-accent: rgba(56, 44, 45, 0.8);
-  } */
-
   
 
 
@@ -159,8 +73,11 @@
 
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent: var(--sidebar-accent);
+
+  --color-type-purple: var(--type-color-purple);
+  --color-type-emerald: var(--type-color-emerald);
+  --color-type-blue: var(--type-color-blue);
 }
 
 @layer base {
@@ -189,6 +106,10 @@
     --sidebar-foreground: #63736f;
     --sidebar-border: #d8e0dd;
     --sidebar-accent: #e8eceb;
+
+    --type-color-purple: oklch(62.7% 0.265 303.9);
+    --type-color-emerald: oklch(69.6% 0.17 162.48);
+    --type-color-blue: oklch(62.3% 0.214 259.815);  
   }
 
   .dark {
@@ -216,6 +137,10 @@
     --sidebar-foreground: #899a96;
     --sidebar-border: rgba(227, 232, 230, 0.1);
     --sidebar-accent: rgba(42, 50, 48, 0.8);
+
+    --type-color-purple: oklch(82.7% 0.119 306.383);
+    --type-color-green: #5ee9b5;
+    --type-color-yellow: oklch(80.9% 0.105 251.813); 
   }
 }
 

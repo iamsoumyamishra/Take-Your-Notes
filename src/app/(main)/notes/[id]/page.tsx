@@ -13,22 +13,22 @@ import { useTopLoader } from "nextjs-toploader";
 const getTypeIcon = (type: string) => {
     switch (type) {
         case "Link":
-            return <LinkIcon size={16} className="text-blue-500" />;
+            return <LinkIcon size={14} className="text-type-blue" />;
         case "Image":
-            return <ImageIcon size={16} className="text-purple-500" />;
+            return <ImageIcon size={14} className="text-type-purple" />;
         default:
-            return <FileText size={16} className="text-emerald-500" />;
+            return <FileText size={14} className="text-type-emerald" />;
     }
 };
 
 const getTypeColor = (type: string) => {
     switch (type) {
         case "Link":
-            return "bg-blue-500/10 text-blue-500 border-blue-500/20";
+            return "text-type-blue border-type-blue/20";
         case "Image":
-            return "bg-purple-500/10 text-purple-500 border-purple-500/20";
+            return "text-type-purple border-type-purple/20";
         default:
-            return "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
+            return "text-type-emerald border-type-emerald/20";
     }
 };
 

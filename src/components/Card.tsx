@@ -39,22 +39,22 @@ const Card = ({ note, session }: {
     const getTypeIcon = (type: string) => {
         switch (type) {
             case "Link":
-                return <LinkIcon size={14} className="text-blue-500" />;
+                return <LinkIcon size={14} className="text-type-blue" />;
             case "Image":
-                return <ImageIcon size={14} className="text-purple-500" />;
+                return <ImageIcon size={14} className="text-type-purple" />;
             default:
-                return <FileText size={14} className="text-emerald-500" />;
+                return <FileText size={14} className="text-type-emerald" />;
         }
     };
 
     const getTypeColor = (type: string) => {
         switch (type) {
             case "Link":
-                return "bg-blue-500/10 text-blue-500 border-blue-500/20";
+                return "text-type-blue border-type-blue/20";
             case "Image":
-                return "bg-purple-500/10 text-purple-500 border-purple-500/20";
+                return "text-type-purple border-type-purple/20";
             default:
-                return "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
+                return "text-type-emerald border-type-emerald/20";
         }
     };
     return (
@@ -122,7 +122,7 @@ const Card = ({ note, session }: {
 
                 {/* Specific Type Extras (Link URL) */}
                 {note.type.includes("Link") && note.url && (
-                    <div className="flex items-center space-x-2 text-xs text-blue-500 mb-4 bg-blue-500/5 p-2 rounded-lg truncate">
+                    <div className="flex items-center space-x-2 text-xs text-blue-400 mb-4 bg-blue-400/5 p-2 rounded-lg truncate">
                         <ExternalLink size={14} className="shrink-0" />
                         <span className="truncate"><a href={note.url} target='_blank'>{note.url}</a></span>
                     </div>
