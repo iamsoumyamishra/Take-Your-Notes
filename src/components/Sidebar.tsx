@@ -43,7 +43,7 @@ export default function Sidebar() {
     const navItems = [
         { icon: PlusCircle, label: "Create New", href: "/notes/new" },
         { icon: LayoutDashboard, label: "Dashboard", href: "/" },
-        { icon: FileText, label: "All Notes", href: "#" },
+        { icon: FileText, label: "All Notes", href: "/notes/all-notes" },
         { icon: Tag, label: "Tags", href: "#" },
         { icon: Star, label: "Favorites", href: "#" },
         { icon: Trash2, label: "Trash", href: "#" },
@@ -51,7 +51,7 @@ export default function Sidebar() {
         { icon: User, label: "Profile", href: "#" },
         { icon: Settings, label: "Settings", href: "#" },
     ];
-    
+
     // Items that will appear in the "More" menu on mobile
     const mobileMoreItems = navItems.filter(item => item.label !== "Dashboard" && item.label !== "Create New");
 
@@ -159,10 +159,10 @@ export default function Sidebar() {
 
             {/* Mobile Bottom Navigation (Visible only on mobile) */}
             <div className="md:hidden fixed bottom-0 left-0 w-full z-50">
-                
+
                 {/* Mobile More Options Overlay */}
-                <div 
-                    className={`absolute bottom-[64px] left-0 w-full bg-sidebar border-t border-sidebar-border p-4 shadow-xl transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full pointer-events-none'}`}
+                <div
+                    className={`absolute bottom-[64px] left-0 w-full bg-background/95 backdrop-blur-3xl border-t border-sidebar-border p-4 shadow-xl transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full pointer-events-none'}`}
                 >
                     <div className="flex items-center justify-between mb-4 mt-2">
                         <span className="font-bold text-lg text-foreground px-2">More Options</span>
@@ -177,12 +177,12 @@ export default function Sidebar() {
                                 <span className="text-[11px] font-medium text-foreground/80 tracking-wide">{item.label}</span>
                             </Link>
                         ))}
-                        
+
                         <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="flex flex-col items-center justify-center p-3 rounded-xl bg-accent/30 hover:bg-accent/50 gap-2">
                             {mounted && (theme === "dark" ? <Sun size={22} className="text-amber-400" /> : <Moon size={22} className="text-indigo-600" />)}
                             <span className="text-[11px] font-medium text-foreground/80 tracking-wide">Theme</span>
                         </button>
-                        
+
                         <button onClick={handleSignOut} className="flex flex-col items-center justify-center p-3 rounded-xl bg-accent/30 hover:bg-red-500/10 gap-2 group text-foreground/80 hover:text-red-500">
                             <LogOut size={22} className="group-hover:text-red-500 text-red-500" />
                             <span className="text-[11px] font-medium group-hover:text-red-500 text-red-500 tracking-wide">Logout</span>
@@ -192,30 +192,30 @@ export default function Sidebar() {
 
                 {/* Main 3 Segment Bottom Bar */}
                 <div className="flex flex-row items-center justify-around h-16 bg-background/95 backdrop-blur-3xl border-t border-border/50 px-2 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.03)] relative z-10 w-full">
-                    
+
                     {/* 1. Dashboard Segment */}
                     <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex flex-col items-center space-y-1 p-2 w-1/3 text-muted-foreground hover:text-foreground">
                         <LayoutDashboard size={24} />
                         <span className="text-[10px] items-center font-bold tracking-wide">Dashboard</span>
                     </Link>
-                    
+
                     {/* 2. Create Segment (Elevated Center Button) */}
                     <div className="w-1/3 flex justify-center h-full relative">
-                        <Link 
-                            href="/notes/new" 
-                            onClick={() => setMobileMenuOpen(false)} 
+                        <Link
+                            href="/notes/new"
+                            onClick={() => setMobileMenuOpen(false)}
                             className="absolute -top-5 flex items-center justify-center w-14 h-14 bg-primary text-primary-foreground rounded-full shadow-lg shadow-primary/30 hover:scale-105 active:scale-95 transition-all ring-4 ring-background"
                         >
                             <PlusCircle size={28} />
                         </Link>
                     </div>
-                    
+
                     {/* 3. More Segment */}
                     <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="flex flex-col items-center space-y-1 p-2 w-1/3 text-muted-foreground hover:text-foreground">
                         <MoreHorizontal size={24} className={mobileMenuOpen ? 'text-primary' : ''} />
                         <span className={`text-[10px] items-center font-bold tracking-wide ${mobileMenuOpen ? 'text-primary' : ''}`}>More</span>
                     </button>
-                    
+
                 </div>
             </div>
         </>
