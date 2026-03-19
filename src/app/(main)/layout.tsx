@@ -46,7 +46,7 @@ export default async function RootLayout({
       >
         <ThemeProvider attribute={"class"} defaultTheme="system">
           <NotesProvider>
-            <div className="flex min-h-screen bg-background text-foreground overflow-hidden">
+            <div className="flex h-screen w-full bg-background text-foreground overflow-hidden">
               <NextTopLoader
                 color="#2299DD"
                 initialPosition={0.08}
@@ -61,10 +61,9 @@ export default async function RootLayout({
                 showAtBottom={false}
               />
               <Sidebar />
-              <main className="flex-1 flex flex-col items-start p-6 md:p-10 w-full relative overflow-y-auto max-h-screen">
-                <div className="w-full max-w-6xl mx-auto flex flex-col gap-6">
-                  {children}
-                </div>
+              {/* pb-16 accommodates the mobile bottom nav height so content isn't covered! */}
+              <main className="flex-1 w-full relative h-screen overflow-hidden pb-16 md:pb-0">
+                {children}
               </main>
             </div>
           </NotesProvider>

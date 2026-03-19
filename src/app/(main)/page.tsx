@@ -45,21 +45,21 @@ export default function DashboardPage() {
   }, [notes])
 
   return (
-    <div className="flex-1 p-8 h-screen overflow-y-auto bg-background text-foreground scrollbar-none">
+    <div className="flex-1 p-4 md:p-8 h-screen overflow-y-auto bg-background text-foreground scrollbar-none">
       {/* Top Header */}
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-primary to-accent-foreground">
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-primary to-accent-foreground">
             Dashboard
           </h1>
-          <p className="text-muted-foreground mt-2 text-sm md:text-base">
+          <p className="text-muted-foreground mt-1 text-sm md:text-base">
             Manage and organize your notes seamlessly.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
           {/* Search Bar */}
-          <div className="relative group">
+          <div className="relative group w-full sm:w-auto">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search size={18} className="text-muted-foreground group-focus-within:text-primary transition-colors" />
             </div>
@@ -68,16 +68,16 @@ export default function DashboardPage() {
               placeholder="Search notes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 pr-4 py-2.5 bg-accent/30 hover:bg-accent/50 border border-border rounded-xl w-full md:w-72 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all shadow-sm backdrop-blur-sm"
+              className="pl-10 pr-4 py-2.5 bg-accent/30 hover:bg-accent/50 border border-border rounded-xl w-full sm:w-64 md:w-72 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all shadow-sm backdrop-blur-sm text-sm md:text-base"
             />
           </div>
 
           {/* Filter Dropdown */}
-          <div className="relative group">
+          <div className="relative group w-full sm:w-auto">
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value as Filter)}
-              className="appearance-none pl-10 pr-10 py-2.5 bg-accent/30 hover:bg-accent/50 border border-border rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all shadow-sm font-medium backdrop-blur-sm"
+              className="appearance-none w-full sm:w-auto pl-10 pr-10 py-2.5 bg-accent/30 hover:bg-accent/50 border border-border rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all shadow-sm font-medium backdrop-blur-sm text-sm md:text-base"
             >
               <option value="All" className="bg-background/80 text-foreground">All Types</option>
               <option value="Link" className="bg-background/80 text-foreground">Links</option>

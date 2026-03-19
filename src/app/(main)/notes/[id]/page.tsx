@@ -86,7 +86,7 @@ export default function NotePage() {
     return (
         <div className="flex-1 flex flex-col h-screen overflow-y-auto bg-background text-foreground scrollbar-none w-full relative selection:bg-blue-200 dark:selection:bg-blue-900">
             {/* Minimal Header */}
-            <div className="sticky top-0 z-10 w-full px-4 py-3 bg-background/90 backdrop-blur-md flex items-center justify-between transition-all opacity-100 border-b border-border/50">
+            <div className="sticky top-0 z-10 w-full px-4 py-3 bg-background/80 backdrop-blur-xl flex items-center justify-between transition-all opacity-100 border-b border-border/50 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)]">
                 <button
                     onClick={() => router.push("/")}
                     className="flex flex-row items-center space-x-2 p-2 px-3 rounded-lg hover:bg-accent hover:text-foreground text-muted-foreground font-medium transition-colors cursor-pointer text-sm"
@@ -144,75 +144,78 @@ export default function NotePage() {
             </div>
 
             {/* Document Body */}
-            <div className="flex-1 w-full max-w-[900px] xl:max-w-[1000px] mx-auto px-6 sm:px-12 md:px-16 py-12 md:py-20 pb-32">
+            <div className="flex-1 w-full max-w-[900px] xl:max-w-[1000px] mx-auto px-4 sm:px-8 md:px-16 py-8 md:py-10 pb-32">
 
-                {/* Document Title */}
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-10 leading-tight wrap-break-word font-serif">
-                    {note?.title}
-                </h1>
+                {/* Immersive Background Glow */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-primary/5 blur-[120px] rounded-full pointer-events-none -translate-z-10" />
 
-                {/* Document Properties Table (Notion style) */}
-                <div className="flex flex-col gap-4 mb-14 py-6 border-y border-border/40 text-[15px]">
-                    <div className="grid grid-cols-[120px_1fr] items-center gap-4">
-                        <div className="flex items-center gap-2 text-muted-foreground font-medium">
-                            <Calendar size={16} />
-                            <span>Created</span>
-                        </div>
-                        <div className="text-foreground">
-                            {note?.date ? new Date(note.date).toLocaleDateString("en-US", {
-                                weekday: 'long',
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                            }) : "Unknown Date"}
-                        </div>
-                    </div>
+                <div className="animate-in fade-in duration-500 ease-out">
+                    {/* Document Title */}
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4 leading-tight wrap-break-word font-serif text-foreground drop-shadow-sm">
+                        {note?.title}
+                    </h1>
 
-                    <div className="grid grid-cols-[120px_1fr] items-center gap-4">
-                        <div className="flex items-center gap-2 text-muted-foreground font-medium">
-                            <FileText size={16} />
-                            <span>Type</span>
+                    {/* Compact Horizontal Properties */}
+                    <div className="flex flex-wrap items-center gap-3 sm:gap-5 mb-8 text-sm text-muted-foreground border-b border-border/40 pb-5">
+                        <div className="flex items-center gap-1.5 hover:text-primary transition-colors cursor-default">
+                            <Calendar size={15} />
+                            <span className="font-medium">
+                                {note?.date ? new Date(note.date).toLocaleDateString("en-US", {
+                                    month: 'short', day: 'numeric', year: 'numeric'
+                                }) : "Unknown Date"}
+                            </span>
                         </div>
-                        <div className="flex flex-wrap gap-2">
+
+                        <div className="h-4 w-px bg-border/60 hidden sm:block"></div>
+
+                        <div className="flex items-center gap-2">
                             {note?.type && note.type.length > 0 ? (
                                 note.type.map((t) => (
                                     <span
                                         key={t}
-                                        className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-md text-sm font-medium bg-accent/50 ${getTypeColor(t)}`}
+                                        className={`flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-accent/30 border shadow-sm transition-transform hover:scale-105 cursor-default ${getTypeColor(t)}`}
                                     >
                                         {getTypeIcon(t)}
                                         <span>{t}</span>
                                     </span>
                                 ))
                             ) : (
-                                <span className="text-muted-foreground italic">None</span>
+                                <span className="text-muted-foreground/70 italic text-xs">Note</span>
                             )}
                         </div>
-                    </div>
 
-                    {note?.content && (
-                        <div className="grid grid-cols-[120px_1fr] items-center gap-4">
-                            <div className="flex items-center gap-2 text-muted-foreground font-medium">
-                                <FileText size={16} />
-                                <span>Words</span>
-                            </div>
-                            <div className="text-foreground font-medium">
-                                {note.content.split(/\s+/).filter(Boolean).length} words • {note.content.length} chars
-                            </div>
-                        </div>
-                    )}
+                        {note?.content && (
+                            <>
+                                <div className="h-4 w-px bg-border/60 hidden sm:block"></div>
+                                <div className="flex items-center gap-1.5 hover:text-primary transition-colors cursor-default">
+                                    <FileText size={15} />
+                                    <span className="font-medium">{note.content.split(/\s+/).filter(Boolean).length} words</span>
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
 
                 {/* Document Content Rendering */}
-                <div className="w-full">
+                <div className="w-full animate-in fade-in duration-500 ease-out">
+
+                    {/* Prose Document Content First! */}
+                    {note?.content && (
+                        <div className="prose prose-zinc dark:prose-invert prose-lg xl:prose-xl max-w-none prose-p:leading-relaxed prose-headings:font-bold prose-a:text-blue-500 mb-10">
+                            <p className="whitespace-pre-wrap text-foreground/90 font-medium">
+                                {note.content}
+                            </p>
+                        </div>
+                    )}
 
                     {/* Image Block */}
                     {note?.type?.includes("Image") && note?.imageUrl && (
-                        <div className="w-full my-8 group relative rounded-lg bg-accent/5 border border-border/50">
+                        <div className="w-full mb-12 group relative rounded-2xl bg-accent/5 border border-border/50 shadow-sm overflow-hidden flex items-center justify-center p-2">
+                            <div className="absolute inset-0 bg-linear-to-tr from-primary/5 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                             <img
                                 src={note.imageUrl}
                                 alt={note.title}
-                                className="w-full h-auto max-h-[800px] object-contain rounded-lg shadow-sm"
+                                className="w-full h-auto max-h-[800px] object-contain rounded-xl relative z-10 transition-transform duration-700 group-hover:scale-[1.01]"
                             />
                         </div>
                     )}
@@ -223,31 +226,26 @@ export default function NotePage() {
                             href={note.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block w-full my-8 p-6 bg-accent/20 border border-border/50 rounded-xl hover:bg-accent/30 transition-all duration-200 group"
+                            className="block w-full mb-10 p-6 bg-linear-to-br from-accent/30 to-background border border-border/60 rounded-2xl hover:bg-accent/40 transition-all duration-300 group hover:-translate-y-1 hover:shadow-xl shadow-sm relative overflow-hidden"
                         >
-                            <div className="flex gap-4 items-start">
-                                <div className="p-3 bg-background rounded-lg border border-border/50 group-hover:bg-blue-500/10 transition-colors">
-                                    <LinkIcon size={24} className="text-blue-500" />
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full group-hover:bg-blue-500/20 transition-colors pointer-events-none" />
+                            <div className="flex gap-5 items-start relative z-10">
+                                <div className="p-4 bg-background rounded-xl border border-border/50 group-hover:border-blue-500/30 group-hover:bg-blue-500/10 transition-colors shadow-sm shrink-0">
+                                    <LinkIcon size={28} className="text-blue-500" />
                                 </div>
-                                <div>
-                                    <h4 className="text-lg font-semibold text-foreground group-hover:text-blue-500 transition-colors mb-1">
-                                        Web Bookmark
+                                <div className="flex-1 min-w-0 pt-0.5">
+                                    <h4 className="text-xl font-bold text-foreground group-hover:text-blue-500 transition-colors mb-1.5">
+                                        Open Web Bookmark
                                     </h4>
-                                    <p className="text-muted-foreground break-all text-sm flex items-center">
-                                        {note.url}
-                                        <ExternalLink size={14} className="ml-2 inline shrink-0 opacity-50 group-hover:opacity-100 transition-opacity" />
+                                    <p className="text-muted-foreground text-sm flex items-center max-w-full font-medium">
+                                        <span className="truncate">{note.url}</span>
+                                        <ExternalLink size={14} className="ml-2 shrink-0 opacity-50 group-hover:opacity-100 transition-opacity" />
                                     </p>
                                 </div>
                             </div>
                         </a>
                     )}
 
-                    {/* Prose Document Content */}
-                    <div className="prose prose-zinc dark:prose-invert prose-lg xl:prose-xl max-w-none prose-p:leading-relaxed prose-headings:font-bold prose-a:text-blue-500 mt-8">
-                        <p className="whitespace-pre-wrap text-foreground/90 font-medium">
-                            {note?.content}
-                        </p>
-                    </div>
                 </div>
 
             </div>
